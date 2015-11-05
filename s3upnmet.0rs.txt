@@ -1,0 +1,55 @@
+﻿
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Your branch is up-to-date with 'origin/master'.
+#
+# Changes to be committed:
+#	deleted:    graphics/Makefile
+#	deleted:    graphics/ccs/.ccsproject
+#	deleted:    graphics/ccs/.cdtbuild
+#	deleted:    graphics/ccs/.cdtbuild_initial
+#	deleted:    graphics/ccs/.cdtproject
+#	deleted:    graphics/ccs/.cproject
+#	deleted:    graphics/ccs/.launches/graphics.launch
+#	deleted:    graphics/ccs/.project
+#	deleted:    graphics/ccs/.project_initial
+#	deleted:    graphics/ccs/.settings/org.eclipse.cdt.codan.core.prefs
+#	deleted:    graphics/ccs/.settings/org.eclipse.cdt.debug.core.prefs
+#	deleted:    graphics/ccs/.settings/org.eclipse.cdt.managedbuilder.core.prefs
+#	deleted:    graphics/ccs/.settings/org.eclipse.core.resources.prefs
+#	deleted:    graphics/ccs/macros.ini_initial
+#	deleted:    graphics/ccs/target_config.ccxml
+#	deleted:    graphics/codered/graphics.axf
+#	deleted:    graphics/codered/graphics.bin
+#	deleted:    graphics/cr_project.xml
+#	deleted:    graphics/ewarm/Exe/graphics.bin
+#	deleted:    graphics/ewarm/Exe/graphics.out
+#	deleted:    graphics/gcc/graphics.axf
+#	deleted:    graphics/gcc/graphics.bin
+#	deleted:    graphics/graphics.Opt
+#	deleted:    graphics/graphics.Uv2
+#	deleted:    graphics/graphics.c
+#	deleted:    graphics/graphics.ewd
+#	deleted:    graphics/graphics.ewp
+#	deleted:    graphics/graphics.icf
+#	deleted:    graphics/graphics.ld
+#	deleted:    graphics/graphics.sct
+#	deleted:    graphics/graphics.sgxx
+#	deleted:    graphics/graphics.uvopt
+#	deleted:    graphics/graphics.uvproj
+#	deleted:    graphics/graphics_ccs.cmd
+#	deleted:    graphics/graphics_codered.ld
+#	deleted:    graphics/graphics_sourcerygxx.ld
+#	deleted:    graphics/readme.txt
+#	deleted:    graphics/rvmdk/graphics.axf
+#	deleted:    graphics/rvmdk/graphics.bin
+#	deleted:    graphics/sourcerygxx/graphics.axf
+#	deleted:    graphics/sourcerygxx/graphics.bin
+#	deleted:    graphics/startup_ccs.c
+#	deleted:    graphics/startup_codered.c
+#	deleted:    graphics/startup_ewarm.c
+#	deleted:    graphics/startup_gcc.c
+#	deleted:    graphics/startup_rvmdk.S
+#
+
