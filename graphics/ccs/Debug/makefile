@@ -2,7 +2,9 @@
 # Automatically-generated file. Do not edit!
 ################################################################################
 
-CG_TOOL_ROOT := /opt/ti/ccsv6/tools/compiler/ti-cgt-arm_15.9.0.STS
+SHELL = cmd.exe
+
+CG_TOOL_ROOT := E:/Program Files (x86)/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5
 
 GEN_OPTS__FLAG := 
 GEN_CMDS__FLAG := 
@@ -38,7 +40,7 @@ ORDERED_OBJS += \
 "./libs/driverlib/udma.obj" \
 "./libs/driverlib/usb.obj" \
 "./libs/driverlib/watchdog.obj" \
-"/home/max_power/workspace_v6_1/graphics/graphics_ccs.cmd" \
+"E:/GitHub/Projektarbeit/graphics/graphics_ccs.cmd" \
 "../libs/driverlib/rvmdk/driverlib.lib" \
 "../libs/driverlib/ccs/Debug/driverlib.lib" \
 $(GEN_CMDS__FLAG) \
@@ -46,8 +48,8 @@ $(GEN_CMDS__FLAG) \
 
 -include ../makefile.init
 
-RM := rm -rf
-RMDIR := rm -rf
+RM := DEL /F
+RMDIR := RMDIR /S/Q
 
 # All of the sources participating in the build are defined here
 -include sources.mk
@@ -177,14 +179,14 @@ all: graphics.out
 graphics.out: $(OBJS) $(CMD_SRCS) $(LIB_SRCS) $(A_SRCS) $(GEN_CMDS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: ARM Linker'
-	"/opt/ti/ccsv6/tools/compiler/ti-cgt-arm_15.9.0.STS/bin/armcl" -mv7M3 --code_state=16 -me -Ooff -g --gcc --define=ccs --define=PART_LM3S8962 --define="ccs" --diag_warning=225 --gen_func_subsections=on --abi=eabi --ual -z -m"graphics_ccs.map" --heap_size=0 --stack_size=256 -i"/opt/ti/ccsv6/tools/compiler/ti-cgt-arm_15.9.0.STS/lib" -i"/opt/ti/ccsv6/tools/compiler/ti-cgt-arm_15.9.0.STS/include" --reread_libs --warn_sections --xml_link_info="graphics_linkInfo.xml" --rom_model -o "graphics.out" $(ORDERED_OBJS) $(A_SRCS)
+	"E:/Program Files (x86)/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5/bin/armcl" -mv7M3 --code_state=16 --abi=eabi -me --gcc --define="ccs" --define=PART_LM3S8962 -z -m"app_LM3S8962_ccs.map" --heap_size=0 --stack_size=512 --reread_libs --warn_sections --rom_model -o "graphics.out" $(ORDERED_OBJS) $(A_SRCS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 	@$(MAKE) --no-print-directory post-build
 
 graphics.bin: $(EXE_OUTPUTS)
 	@echo 'Invoking: ARM Hex Utility'
-	"/opt/ti/ccsv6/tools/compiler/ti-cgt-arm_15.9.0.STS/bin/armhex"  -o "graphics.bin" $(EXE_OUTPUTS__QUOTED)
+	"E:/Program Files (x86)/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5/bin/armhex"  -o "graphics.bin" $(EXE_OUTPUTS__QUOTED)
 	@echo 'Finished building: $@'
 	@echo ' '
 	@$(MAKE) --no-print-directory post-build
@@ -192,13 +194,13 @@ graphics.bin: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(EXE_OUTPUTS__QUOTED)$(BIN_OUTPUTS__QUOTED)
-	-$(RM) "can_net.pp" "dame.pp" "graphics.pp" "main.pp" "random.pp" "startup_ccs.pp" "libs/drivers/rit128x96x4.pp" "libs/driverlib/adc.pp" "libs/driverlib/can.pp" "libs/driverlib/comp.pp" "libs/driverlib/cpu.pp" "libs/driverlib/epi.pp" "libs/driverlib/ethernet.pp" "libs/driverlib/flash.pp" "libs/driverlib/gpio.pp" "libs/driverlib/hibernate.pp" "libs/driverlib/i2c.pp" "libs/driverlib/i2s.pp" "libs/driverlib/interrupt.pp" "libs/driverlib/mpu.pp" "libs/driverlib/pwm.pp" "libs/driverlib/qei.pp" "libs/driverlib/ssi.pp" "libs/driverlib/sysctl.pp" "libs/driverlib/systick.pp" "libs/driverlib/timer.pp" "libs/driverlib/uart.pp" "libs/driverlib/udma.pp" "libs/driverlib/usb.pp" "libs/driverlib/watchdog.pp" 
-	-$(RM) "can_net.obj" "dame.obj" "graphics.obj" "main.obj" "random.obj" "startup_ccs.obj" "libs/drivers/rit128x96x4.obj" "libs/driverlib/adc.obj" "libs/driverlib/can.obj" "libs/driverlib/comp.obj" "libs/driverlib/cpu.obj" "libs/driverlib/epi.obj" "libs/driverlib/ethernet.obj" "libs/driverlib/flash.obj" "libs/driverlib/gpio.obj" "libs/driverlib/hibernate.obj" "libs/driverlib/i2c.obj" "libs/driverlib/i2s.obj" "libs/driverlib/interrupt.obj" "libs/driverlib/mpu.obj" "libs/driverlib/pwm.obj" "libs/driverlib/qei.obj" "libs/driverlib/ssi.obj" "libs/driverlib/sysctl.obj" "libs/driverlib/systick.obj" "libs/driverlib/timer.obj" "libs/driverlib/uart.obj" "libs/driverlib/udma.obj" "libs/driverlib/usb.obj" "libs/driverlib/watchdog.obj" 
+	-$(RM) "can_net.pp" "dame.pp" "graphics.pp" "main.pp" "random.pp" "startup_ccs.pp" "libs\drivers\rit128x96x4.pp" "libs\driverlib\adc.pp" "libs\driverlib\can.pp" "libs\driverlib\comp.pp" "libs\driverlib\cpu.pp" "libs\driverlib\epi.pp" "libs\driverlib\ethernet.pp" "libs\driverlib\flash.pp" "libs\driverlib\gpio.pp" "libs\driverlib\hibernate.pp" "libs\driverlib\i2c.pp" "libs\driverlib\i2s.pp" "libs\driverlib\interrupt.pp" "libs\driverlib\mpu.pp" "libs\driverlib\pwm.pp" "libs\driverlib\qei.pp" "libs\driverlib\ssi.pp" "libs\driverlib\sysctl.pp" "libs\driverlib\systick.pp" "libs\driverlib\timer.pp" "libs\driverlib\uart.pp" "libs\driverlib\udma.pp" "libs\driverlib\usb.pp" "libs\driverlib\watchdog.pp" 
+	-$(RM) "can_net.obj" "dame.obj" "graphics.obj" "main.obj" "random.obj" "startup_ccs.obj" "libs\drivers\rit128x96x4.obj" "libs\driverlib\adc.obj" "libs\driverlib\can.obj" "libs\driverlib\comp.obj" "libs\driverlib\cpu.obj" "libs\driverlib\epi.obj" "libs\driverlib\ethernet.obj" "libs\driverlib\flash.obj" "libs\driverlib\gpio.obj" "libs\driverlib\hibernate.obj" "libs\driverlib\i2c.obj" "libs\driverlib\i2s.obj" "libs\driverlib\interrupt.obj" "libs\driverlib\mpu.obj" "libs\driverlib\pwm.obj" "libs\driverlib\qei.obj" "libs\driverlib\ssi.obj" "libs\driverlib\sysctl.obj" "libs\driverlib\systick.obj" "libs\driverlib\timer.obj" "libs\driverlib\uart.obj" "libs\driverlib\udma.obj" "libs\driverlib\usb.obj" "libs\driverlib\watchdog.obj" 
 	-@echo 'Finished clean'
 	-@echo ' '
 
 post-build:
-	-"/opt/ti/ccsv6/utils/tiobj2bin/tiobj2bin.bat" "graphics.out" "graphics.bin" "/opt/ti/ccsv6/tools/compiler/ti-cgt-arm_15.9.0.STS/bin/ofd470.exe" "/opt/ti/ccsv6/tools/compiler/ti-cgt-arm_15.9.0.STS/bin/hex470.exe" "/opt/ti/ccsv6/utils/tiobj2bin/mkhex4bin.exe"
+	-"E:/Program Files (x86)/ti/ccsv6/utils/tiobj2bin/tiobj2bin.bat" "graphics.out" "graphics.bin" "E:/Program Files (x86)/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5/bin/ofd470.exe" "E:/Program Files (x86)/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5/bin/hex470.exe" "E:/Program Files (x86)/ti/ccsv6/utils/tiobj2bin/mkhex4bin.exe"
 	-@echo ' '
 
 .PHONY: all clean dependents

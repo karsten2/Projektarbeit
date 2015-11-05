@@ -3,10 +3,10 @@
 ################################################################################
 
 # Each subdirectory must supply rules for building sources it contributes
-libs/drivers/rit128x96x4.obj: /home/max_power/workspace_v6_1/graphics/ccs/libs/drivers/rit128x96x4.c $(GEN_OPTS) $(GEN_HDRS)
+libs/drivers/rit128x96x4.obj: E:/Program\ Files\ (x86)/ti/ccsv6/eclipse/ROOT_PARENT/ccs/libs/drivers/rit128x96x4.c $(GEN_OPTS) $(GEN_HDRS)
 	@echo 'Building file: $<'
 	@echo 'Invoking: ARM Compiler'
-	"/opt/ti/ccsv6/tools/compiler/ti-cgt-arm_15.9.0.STS/bin/armcl" -mv7M3 --code_state=16 -me -Ooff --include_path="/opt/ti/ccsv6/tools/compiler/ti-cgt-arm_15.9.0.STS/include" --include_path="/home/max_power/workspace_v6_1/graphics" --include_path="/home/max_power/workspace_v6_1/graphics/ccs" --include_path="/home/max_power/workspace_v6_1/graphics/ccs/libs" --include_path="x86_64" -g --gcc --define=ccs --define=PART_LM3S8962 --define="ccs" --diag_warning=225 --gen_func_subsections=on --abi=eabi --ual --preproc_with_compile --preproc_dependency="libs/drivers/rit128x96x4.pp" --obj_directory="libs/drivers" $(GEN_OPTS__FLAG) "$(shell echo $<)"
+	"E:/Program Files (x86)/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5/bin/armcl" -mv7M3 --code_state=16 --abi=eabi -me --gcc --define="ccs" --define=PART_LM3S8962 --preproc_with_compile --preproc_dependency="libs/drivers/rit128x96x4.pp" --obj_directory="libs/drivers" $(GEN_OPTS__FLAG) "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>graphics</name>
+	<name>dame</name>
 	<comment></comment>
 	<projects>
 	</projects>
 	<buildSpec>
 		<buildCommand>
 			<name>org.eclipse.cdt.managedbuilder.core.genmakebuilder</name>
+			<triggers>clean,full,incremental,</triggers>
 			<arguments>
 			</arguments>
 		</buildCommand>
@@ -28,28 +29,36 @@
 		<link>
 			<name>graphics_ccs.cmd</name>
 			<type>1</type>
-			<locationURI>ROOT_PARENT/graphics_ccs.cmd</locationURI>
+			<locationURI>copy_PARENT/graphics_ccs.cmd</locationURI>
 		</link>
 		<link>
 			<name>main.c</name>
 			<type>1</type>
-			<locationURI>ROOT_PARENT/main.c</locationURI>
+			<locationURI>copy_PARENT/main.c</locationURI>
 		</link>
 		<link>
 			<name>startup_ccs.c</name>
 			<type>1</type>
-			<locationURI>ROOT_PARENT/startup_ccs.c</locationURI>
+			<locationURI>copy_PARENT/startup_ccs.c</locationURI>
 		</link>
 		<link>
 			<name>libs/drivers/rit128x96x4.c</name>
 			<type>1</type>
-			<locationURI>ROOT_PARENT/ccs/libs/drivers/rit128x96x4.c</locationURI>
+			<locationURI>copy_PROJECT_LOC/libs/drivers/rit128x96x4.c</locationURI>
 		</link>
 	</linkedResources>
 	<variableList>
 		<variable>
 			<name>SW_ROOT</name>
 			<value>$%7BPARENT-4-PROJECT_LOC%7D</value>
+		</variable>
+		<variable>
+			<name>copy_PARENT</name>
+			<value>$%7BPARENT-4-ECLIPSE_HOME%7D/GitHub/Projektarbeit/graphics</value>
+		</variable>
+		<variable>
+			<name>copy_PROJECT_LOC</name>
+			<value>$%7Bcopy_PARENT%7D/ccs</value>
 		</variable>
 	</variableList>
 </projectDescription>

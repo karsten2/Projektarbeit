@@ -4,15 +4,15 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CMD_SRCS += \
-/home/max_power/workspace_v6_1/graphics/graphics_ccs.cmd 
+E:/Program\ Files\ (x86)/ti/ccsv6/eclipse/ROOT_PARENT/graphics_ccs.cmd 
 
 C_SRCS += \
 ../can_net.c \
 ../dame.c \
 ../graphics.c \
-/home/max_power/workspace_v6_1/graphics/main.c \
+E:/Program\ Files\ (x86)/ti/ccsv6/eclipse/ROOT_PARENT/main.c \
 ../random.c \
-/home/max_power/workspace_v6_1/graphics/startup_ccs.c 
+E:/Program\ Files\ (x86)/ti/ccsv6/eclipse/ROOT_PARENT/startup_ccs.c 
 
 OBJS += \
 ./can_net.obj \
@@ -50,8 +50,8 @@ C_SRCS__QUOTED += \
 "../can_net.c" \
 "../dame.c" \
 "../graphics.c" \
-"/home/max_power/workspace_v6_1/graphics/main.c" \
+"E:/Program Files (x86)/ti/ccsv6/eclipse/ROOT_PARENT/main.c" \
 "../random.c" \
-"/home/max_power/workspace_v6_1/graphics/startup_ccs.c" 
+"E:/Program Files (x86)/ti/ccsv6/eclipse/ROOT_PARENT/startup_ccs.c" 
 
 
