@@ -408,9 +408,6 @@ int main(void) {
 	//
 	Delay(CLOCK_RATE / 4);
 
-	initMenu();
-	drawMenu();
-
 	startGame();
 
 	while (1) {
