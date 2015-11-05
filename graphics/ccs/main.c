@@ -36,25 +36,17 @@
 #include "globals.h"
 #include "random.h"
 #include "can_net.h"
-#include "game.h"
-#include "demo.h"
 
 #include <stdio.h>
 #include <string.h>
 
-int menuPointer, menuSize;
-const char *menu[5];
 unsigned char g_pucFrame[6144];
 int displayWidth = 128;
 int displayHeight = 96;
 int pin0 = 1;
-int pin0_released = 0;
 int pin1 = 2;
-int pin1_released = 0;
 int pin2 = 4;
-int pin2_released = 0;
 int pin3 = 8;
-int pin3_released = 0;
 
 //*****************************************************************************
 //
@@ -133,32 +125,6 @@ __error__(char *pcFilename, unsigned long ulLine)
 }
 #endif
 
-void initMenu(void) {
-	menu[0] = "Button Demo";
-	menu[1] = "Draw a Line";
-	menu[2] = "Move the Dot";
-	menu[3] = "Draw Image";
-	menu[4] = "Start Game";
-	menuSize = 5;
-	menuPointer = 0;
-}
-
-void drawMenu(void) {
-
-	RIT128x96x4Clear();
-	int i;
-	char entry[80];
-	for (i = 0; i < menuSize; i++) {
-		if (i == menuPointer) {
-			strcpy(entry, menu[i]);
-			strcat(entry, "<---");
-		} else {
-			strcpy(entry, menu[i]);
-		}
-		RIT128x96x4StringDraw(entry, 0, i * 10, 15);
-	}
-}
-
 //*****************************************************************************
 //
 // Delay for a multiple of the system tick clock rate.
@@ -184,29 +150,22 @@ static void Delay(unsigned long ulCount) {
 
 // up
 void GPIO_0_Released(void) {
-	if (menuPointer > 0) {
-		menuPointer--;
-		drawMenu();
-	}
+	upPressed();
 }
 
 // down
 void GPIO_1_Released(void) {
-	if (menuPointer < menuSize - 1) {
-		menuPointer++;
-		drawMenu();
-	}
+	downPressed();
 }
 
 // left
 void GPIO_2_Released(void) {
-	// do something
+	leftPressed();
 }
 
 // right
 void GPIO_3_Released(void) {
-	// do something
-
+	rightPressed();
 }
 
 void GPIO_Pin_Handler(void) {
@@ -223,7 +182,7 @@ void GPIO_Pin_Handler(void) {
 		} else if (pin0 == 0 && pin0_newState == 1) {
 			// button released
 			pin0 = 1;
-			pin0_released = 1;
+			GPIO_0_Released();
 		}
 	}
 	// Pin 1
@@ -234,7 +193,7 @@ void GPIO_Pin_Handler(void) {
 		} else if (pin1 == 0 && pin1_newState == 2) {
 			// button released
 			pin1 = 2;
-			pin1_released = 1;
+			GPIO_1_Released();
 		}
 	}
 	// Pin 2
@@ -245,7 +204,7 @@ void GPIO_Pin_Handler(void) {
 		} else if (pin2 == 0 && pin2_newState == 4) {
 			// button released
 			pin2 = 4;
-			pin2_released = 1;
+			GPIO_2_Released();
 		}
 	}
 	// Pin 3
@@ -256,7 +215,7 @@ void GPIO_Pin_Handler(void) {
 		} else if (pin3 == 0 && pin3_newState == 8) {
 			// button released
 			pin3 = 8;
-			pin3_released = 1;
+			GPIO_3_Released();
 		}
 	}
 }
@@ -455,24 +414,6 @@ int main(void) {
 	startGame();
 
 	while (1) {
-
-		if (pin0_released) {
-			GPIO_0_Released();
-			pin0_released = 0;
-		}
-		if (pin1_released) {
-			GPIO_1_Released();
-			pin1_released = 0;
-		}
-		if (pin2_released) {
-			GPIO_2_Released();
-			pin2_released = 0;
-		}
-		if (pin3_released) {
-			GPIO_3_Released();
-			pin3_released = 0;
-		}
-
 		//
 		// See if the select button was pressed.
 		//
@@ -481,30 +422,6 @@ int main(void) {
 			// Clear the button press indicator.
 			//
 			HWREGBITW(&g_ulFlags, FLAG_BUTTON_PRESS) = 0;
-
-			switch (menuPointer) {
-			case 0:
-				// Button Demo
-				//buttonDemo();
-				break;
-			case 1:
-				// Draws a Line
-				//lineDemo();
-				break;
-			case 2:
-				// Move a dot
-				//dotDemo();
-				break;
-			case 3:
-				// Draw Image
-				drawImage();
-				break;
-			case 4:
-				// Game
-				startGame();
-				break;
-			}
-			drawMenu();
 		}
 	}
 }

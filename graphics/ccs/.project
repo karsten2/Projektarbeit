@@ -25,28 +25,6 @@
 		<nature>com.ti.ccstudio.core.ccsNature</nature>
 		<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>graphics_ccs.cmd</name>
-			<type>1</type>
-			<locationURI>copy_PARENT/graphics_ccs.cmd</locationURI>
-		</link>
-		<link>
-			<name>main.c</name>
-			<type>1</type>
-			<locationURI>copy_PARENT/main.c</locationURI>
-		</link>
-		<link>
-			<name>startup_ccs.c</name>
-			<type>1</type>
-			<locationURI>copy_PARENT/startup_ccs.c</locationURI>
-		</link>
-		<link>
-			<name>libs/drivers/rit128x96x4.c</name>
-			<type>1</type>
-			<locationURI>copy_PROJECT_LOC/libs/drivers/rit128x96x4.c</locationURI>
-		</link>
-	</linkedResources>
 	<variableList>
 		<variable>
 			<name>SW_ROOT</name>
