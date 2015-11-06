@@ -350,64 +350,38 @@ void initPitch(void) {
 					ppitch->right = ppitch->bottomLeft = ppitch->bottom =
 							ppitch->bottomRight = NULL;
 
+			ppitch->top = ppitch - 8;
+			ppitch->topLeft = ppitch - 9;
+			ppitch->topRight = ppitch - 7;
+			ppitch->left = ppitch - 1;
+			ppitch->right = ppitch + 1;
+			ppitch->bottomRight = ppitch + 9;
+			ppitch->bottom = ppitch + 8;
+			ppitch->bottomLeft = ppitch + 7;
+
 			// find the fields position and set the field pointers, depending on their position in the pitch.
 			if (i == 0 && k == 0) {
-				ppitch->right = ppitch + 1;
-				ppitch->bottom = ppitch + 8;
-				ppitch->bottomRight = ppitch + 9;
-
+				ppitch->top = ppitch->topLeft = ppitch->topRight =
+						ppitch->left = ppitch->bottomLeft = NULL;
 			} else if (i == 0 && k == 7) {
-				ppitch->left = ppitch - 1;
-				ppitch->bottom = ppitch + 8;
-				ppitch->bottomLeft = ppitch + 7;
-
+				ppitch->top = ppitch->topLeft = ppitch->topRight =
+						ppitch->right = ppitch->bottomRight = NULL;
 			} else if (i == 7 && k == 0) {
-				ppitch->right = ppitch + 1;
-				ppitch->top = ppitch - 8;
-				ppitch->topRight = ppitch - 7;
-
+				ppitch->topLeft = ppitch->left = ppitch->bottomLeft =
+						ppitch->bottom = ppitch->bottomRight = NULL;
 			} else if (i == 7 && k == 7) {
-				ppitch->left = ppitch - 1;
-				ppitch->top = ppitch - 8;
-				ppitch->topLeft = ppitch - 9;
-
+				ppitch->topRight = ppitch->right = ppitch->bottomLeft =
+						ppitch->bottom = ppitch->bottomRight = NULL;
 			} else if (i == 0) {
-				ppitch->left = ppitch - 1;
-				ppitch->right = ppitch + 1;
-				ppitch->bottom = ppitch + 8;
-				ppitch->bottomLeft = ppitch + 7;
-				ppitch->bottomRight = ppitch + 9;
-
+				ppitch->top = ppitch->topLeft = ppitch->topRight = NULL;
 			} else if (i == 7) {
-				ppitch->left = ppitch - 1;
-				ppitch->right = ppitch + 1;
-				ppitch->top = ppitch - 8;
-				ppitch->topLeft = ppitch - 7;
-				ppitch->topRight = ppitch - 9;
-
+				ppitch->bottomLeft = ppitch->bottom = ppitch->bottomRight =
+				NULL;
 			} else if (k == 0) {
-				ppitch->top = ppitch - 8;
-				ppitch->topRight = ppitch - 7;
-				ppitch->right = ppitch + 1;
-				ppitch->bottomRight = ppitch + 9;
-				ppitch->bottom = ppitch + 8;
+				ppitch->topLeft = ppitch->left = ppitch->bottomLeft = NULL;
 
 			} else if (k == 7) {
-				ppitch->top = ppitch - 8;
-				ppitch->topLeft = ppitch - 9;
-				ppitch->left = ppitch - 1;
-				ppitch->bottomRight = ppitch + 9;
-				ppitch->bottom = ppitch + 8;
-
-			} else {
-				ppitch->top = ppitch - 8;
-				ppitch->topLeft = ppitch - 9;
-				ppitch->topRight = ppitch - 7;
-				ppitch->left = ppitch - 1;
-				ppitch->right = ppitch + 1;
-				ppitch->bottomRight = ppitch + 9;
-				ppitch->bottom = ppitch + 8;
-				ppitch->bottomLeft = ppitch + 7;
+				ppitch->topRight = ppitch->right = ppitch->bottomRight = NULL;
 			}
 
 			ppitch++;
@@ -913,7 +887,8 @@ void moveStone(struct field *src, struct field *dst) {
  */
 void selectHandler(void) {
 
-	if (_selectionMode == stone && selection->_stone->alive) {
+	if (_selectionMode == stone && selection->_stone != NULL
+			&& selection->_stone->alive) {
 		if (selectedStoneField == NULL) {
 			selectedStoneField = selection;
 		} else if (selectedStoneField == selection) {
