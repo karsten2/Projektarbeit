@@ -36,12 +36,6 @@
 ehthumbs.db
 Thumbs.db
 
-# Project files #
-#################
-.ccsproject
-.cproject
-.project
-
 # Debug files #
 ###############
 /Debug/
