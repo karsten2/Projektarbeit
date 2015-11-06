@@ -87,7 +87,6 @@ enum changed {
 struct field {
 	int x, y;
 	int color;
-	int selected;
 	struct stone *_stone;
 	struct field *top;
 	struct field *topLeft;
@@ -680,35 +679,35 @@ int movePossible(struct stone *_stone) {
  * Function draws the beaten stones to each players scorepoard.
  */
 void updateScorboard(void) {
-	struct player p1, p2;
+	struct player *p1, *p2;
 	int row = 1;
 	int count = 0;
 	int i;
 
 	// set players
-	p1 = *currentPlayer;
+	p1 = currentPlayer;
 
 	for (i = 0; i < sizeof(players) / sizeof(players[0]); i++) {
 		if (&players[i] != currentPlayer) {
-			p2 = players[i];
+			p2 = &players[i];
 			break;
 		}
 	}
 
 	// top player is p1
-	if (!p1.position) {
+	if (!p1->position) {
 		p1 = p2;
-		p2 = *currentPlayer;
+		p2 = currentPlayer;
 	}
 
-	// draw the stones in 3 rows à 4 stones.
-	for (i = 0; i < sizeof(p2.stones) / sizeof(p2.stones[0]); i++) {
+	// draw the stones in 4 rows à 3 stones.
+	for (i = 0; i < sizeof(p2->stones) / sizeof(p2->stones[0]); i++) {
 
 		// draw score for p1
-		if (!p2.stones[i].alive) {
-			drawStone(&p2.stones[i], count * 5, row * 20);
+		if (!p2->stones[i].alive) {
+			drawStone(&p2->stones[i], count * 5, row * 13);
 			count++;
-			if (count == 4) {
+			if (count == 3) {
 				row++;
 				count = 0;
 			}
@@ -716,7 +715,7 @@ void updateScorboard(void) {
 
 	}
 
-	for (i = 0; i < sizeof(p1.stones) / sizeof(p1.stones[0]); i++) {
+	for (i = 0; i < sizeof(p1->stones) / sizeof(p1->stones[0]); i++) {
 
 		// draw score for p2
 		//if (p1.)
