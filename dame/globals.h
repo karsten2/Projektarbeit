@@ -63,15 +63,105 @@ extern unsigned long g_ulSystemClock;
 //
 //*****************************************************************************
 extern unsigned char g_pucFrame[6144];
-
-extern int buttonPressed, pin0, pin1, pin2, pin3, pinF1;
-extern int displayWidth, displayHeight;
+extern int buttonPressed;
 
 extern void upPressed();
 extern void downPressed();
 extern void leftPressed();
 extern void rightPressed();
 extern void startGame();
+
+#define STONEWIDTH 		10
+#define STONEHEIGHT 	10
+#define displayWidth	128
+#define displayHeight	96
+
+/**
+ * king: [0, 1]: when stone reaches enemies kings row, it will be transformed to a king.
+ * alive: [0, 1]: 0 - dead, 1 - alive.
+ * *img: Pointer to the image.
+ * *kingImg: Pointer to the image, if the stone turns into a king.
+ * *_field: The field, that contains the stone.
+ * *_player: The Owner of the stone.
+ */
+typedef struct stone {
+	int king;
+	int alive;
+	unsigned char *img;
+	unsigned char *kingImg;
+	struct field *_field;
+	struct player *_player;
+} stone, *stonePtr;
+
+/**
+ * A field in the pitch.
+ *
+ * x: [0-127]: The horizontal position of the field.
+ * y: [0-95]: The vertical position of the field.
+ * color: [0-1]: The Color of the field.
+ * selected: [0-1]:
+ * *_stone: a possible stone on the field.
+ */
+struct field {
+	int x, y;
+	int color;
+	struct stone *_stone;
+	struct field *top;
+	struct field *topLeft;
+	struct field *topRight;
+	struct field *left;
+	struct field *right;
+	struct field *bottom;
+	struct field *bottomLeft;
+	struct field *bottomRight;
+};
+
+/**
+ * x: [0-127]: The horizontal position of the pitch.
+ * y: [0-95]: The vertical position of the pitch.
+ * offset: The widht and height of a field. !!! Use only even numbers !!!
+ * size: Size of the array.
+ * fields: 8x8 array of fields.
+ */
+typedef struct pitch {
+	int x, y;
+	int offset;
+	int size;
+	int fieldCount;
+	struct field fields[64];
+} pitch;
+
+/**
+ * position: [1, 0]: top, bottom
+ * color: [0, 1]: 0 - black, 1 - white.
+ * stones: The array of the players stones.
+ */
+typedef struct player {
+	int position;
+	int color;
+	struct stone stones[12];
+} player;
+
+/**
+ *
+ */
+typedef struct {
+	int size;
+	int capacity;
+	struct stone *stone;
+} dynStoneArray;
+
+extern struct field *selectedStoneField;
+extern struct field *selection;
+extern struct stone *stoneMoved;
+
+extern struct player *currentPlayer;
+extern struct player players[2];
+extern struct pitch _pitch;
+
+extern int movePossible();
+extern int playerOwnsStone();
+
 
 //*****************************************************************************
 //

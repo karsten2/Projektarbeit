@@ -22,11 +22,13 @@
 //
 //*****************************************************************************
 
+#include <stdio.h>
+
 #include "drivers/rit128x96x4.h"
+#include "inc/hw_types.h"
+
 #include "graphics.h"
 #include "globals.h"
-#include "inc/hw_types.h"
-#include <stdio.h>
 
 unsigned char stoneWhite[50] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x5A, 0xAA,
 		0xA0, 0x00, 0x05, 0xAF, 0xFF, 0xFA, 0x00, 0x0A, 0xFF, 0xFF, 0xFF, 0x50,
@@ -52,9 +54,15 @@ unsigned char stoneBlackKing[50] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x5A,
 		0x00, 0x00, 0x00, 0x50, 0x00, 0x50, 0x00, 0x05, 0x00, 0x00, 0x05, 0x00,
 		0x50, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 
-int STONEWIDTH = 10;
-int STONEHEIGHT = 10;
 int STONEBEATEN = 0;
+
+struct field *selectedStoneField;
+struct field *selection;
+struct stone *stoneMoved;
+
+struct player *currentPlayer;
+struct player players[2];
+struct pitch _pitch;
 
 /**
  * The player can select different fields, depending on the current selection.
@@ -65,7 +73,7 @@ int STONEBEATEN = 0;
  * 							turns back into nothing selected.
  */
 enum selectionMode {
-	stone, field
+	_stone, _field
 } _selectionMode;
 
 /**
@@ -74,83 +82,6 @@ enum selectionMode {
 enum changed {
 	nothing, up, down, left, right
 } _changed;
-
-/**
- * A field in the pitch.
- *
- * x: [0-127]: The horizontal position of the field.
- * y: [0-95]: The vertical position of the field.
- * color: [0-1]: The Color of the field.
- * selected: [0-1]:
- * *_stone: a possible stone on the field.
- */
-struct field {
-	int x, y;
-	int color;
-	struct stone *_stone;
-	struct field *top;
-	struct field *topLeft;
-	struct field *topRight;
-	struct field *left;
-	struct field *right;
-	struct field *bottom;
-	struct field *bottomLeft;
-	struct field *bottomRight;
-};
-
-/**
- * x: [0-127]: The horizontal position of the pitch.
- * y: [0-95]: The vertical position of the pitch.
- * offset: The widht and height of a field. !!! Use only even numbers !!!
- * size: Size of the array.
- * fields: 8x8 array of fields.
- */
-struct pitch {
-	int x, y;
-	int offset;
-	int size;
-	int fieldCount;
-	struct field fields[64];
-} _pitch;
-
-/**
- * king: [0, 1]: when stone reaches enemies kings row, it will be transformed to a king.
- * alive: [0, 1]: 0 - dead, 1 - alive.
- * *img: Pointer to the image.
- * *kingImg: Pointer to the image, if the stone turns into a king.
- * *_field: The field, that contains the stone.
- * *_player: The Owner of the stone.
- */
-struct stone {
-	int king;
-	int alive;
-	unsigned char *img;
-	unsigned char *kingImg;
-	struct field *_field;
-	struct player *_player;
-};
-
-/**
- * position: [1, 0]: top, bottom
- * color: [0, 1]: 0 - black, 1 - white.
- * stones: The array of the players stones.
- */
-struct player {
-	int position;
-	int color;
-	struct stone stones[12];
-} players[2];
-
-// the current player.
-struct player *currentPlayer;
-
-// the stone, the player wants to move.
-struct field *selectedStoneField;
-
-// the currently selected field.
-struct field *selection;
-
-struct stone *stoneMoved;
 
 /**
  * The selected field, where the players want to move the stones.
@@ -504,22 +435,22 @@ int playerOwnsStone(struct player *_player, struct stone *_stone) {
  *
  * Returns the next possible field.
  */
-int isFieldValid(struct field *_field) {
+int isFieldValid(struct field *field) {
 
-	if (_selectionMode == stone) {
+	if (_selectionMode == _stone) {
 		// only be able to select the stones of the current player.
-		if (_field->_stone != NULL && _field->_stone->_player == currentPlayer)
-			if (playerOwnsStone(currentPlayer, _field->_stone))
+		if (field->_stone != NULL && field->_stone->_player == currentPlayer)
+			if (playerOwnsStone(currentPlayer, field->_stone))
 				return 1;
 
-	} else if (_selectionMode == field) {
-		if (_field->color)
+	} else if (_selectionMode == _field) {
+		if (field->color)
 			return 0;
 		// be able to select free fields on the pitch and the current players stones.
-		if (_field->_stone == NULL)
+		if (field->_stone == NULL)
 			return 1;
-		if (_field->_stone != NULL && _field->_stone->_player == currentPlayer)
-			if (playerOwnsStone(currentPlayer, _field->_stone))
+		if (field->_stone != NULL && field->_stone->_player == currentPlayer)
+			if (playerOwnsStone(currentPlayer, field->_stone))
 				return 1;
 	}
 
@@ -611,68 +542,6 @@ void GPIO_Handler(void) {
 
 	drawPitch();
 	_changed = nothing;
-}
-
-/**
- * After the player has beaten a stone, this function checks, if
- * this stone can beat another stone.
- */
-int movePossible(struct stone *_stone) {
-	if (_stone != NULL) {
-		if (_stone->king) {
-			// any direction
-
-			if (_stone->_field->bottomLeft->_stone != NULL
-					&& !playerOwnsStone(currentPlayer,
-							_stone->_field->bottomLeft->_stone) && _stone->_field->bottomLeft->bottomLeft->_stone == NULL) {
-				return 1;
-			} else if (_stone->_field->bottomRight->_stone != NULL
-					&& !playerOwnsStone(currentPlayer,
-							_stone->_field->bottomRight->_stone) && _stone->_field->bottomRight->bottomRight->_stone == NULL) {
-				return 1;
-			} else if (_stone->_field->topLeft->_stone != NULL
-					&& !playerOwnsStone(currentPlayer,
-							_stone->_field->topLeft->_stone) && _stone->_field->topLeft->topLeft->_stone == NULL) {
-				return 1;
-			} else if (_stone->_field->topRight->_stone != NULL
-					&& !playerOwnsStone(currentPlayer,
-							_stone->_field->topRight->_stone) && _stone->_field->topRight->topRight->_stone == NULL) {
-				return 1;
-			}
-
-		} else {
-			if (currentPlayer->position) {
-				// top
-				// Checks if bottomLeft or bottomRight contains an enemy stone
-				// and if bottomLeft or bottomRight of this stone is empty ->
-				if (_stone->_field->bottomLeft->_stone != NULL
-						&& !playerOwnsStone(currentPlayer,
-								_stone->_field->bottomLeft->_stone) && _stone->_field->bottomLeft->bottomLeft->_stone == NULL) {
-					return 1;
-				} else if (_stone->_field->bottomRight->_stone != NULL
-						&& !playerOwnsStone(currentPlayer,
-								_stone->_field->bottomRight->_stone) && _stone->_field->bottomRight->bottomRight->_stone == NULL) {
-					return 1;
-				}
-			} else {
-				// bottom
-				// top
-				// Checks if bottomLeft or bottomRight contains an enemy stone
-				// and if bottomLeft or bottomRight of this stone is empty ->
-				if (_stone->_field->topLeft->_stone != NULL
-						&& !playerOwnsStone(currentPlayer,
-								_stone->_field->topLeft->_stone) && _stone->_field->topLeft->topLeft->_stone == NULL) {
-					return 1;
-				} else if (_stone->_field->topRight->_stone != NULL
-						&& !playerOwnsStone(currentPlayer,
-								_stone->_field->topRight->_stone) && _stone->_field->topRight->topRight->_stone == NULL) {
-					return 1;
-				}
-			}
-		}
-	}
-
-	return 0;
 }
 
 /**
@@ -886,7 +755,7 @@ void moveStone(struct field *src, struct field *dst) {
  */
 void selectHandler(void) {
 
-	if (_selectionMode == stone && selection->_stone != NULL
+	if (_selectionMode == _stone && selection->_stone != NULL
 			&& selection->_stone->alive) {
 		if (selectedStoneField == NULL) {
 			selectedStoneField = selection;
@@ -898,13 +767,13 @@ void selectHandler(void) {
 			selectedStoneField = selection;
 		}
 
-	} else if (_selectionMode == field) {
+	} else if (_selectionMode == _field) {
 		if (selectedStoneField == selection) {
 
 // if the player selects a selected stone again,
 // remove the selection from the stone.
 			selectedStoneField = NULL;
-			_selectionMode = stone;
+			_selectionMode = _stone;
 
 		} else if (selection->_stone != NULL
 				&& playerOwnsStone(currentPlayer, selection->_stone)
@@ -921,17 +790,16 @@ void selectHandler(void) {
 // in relation to the rules of Dame.
 
 			moveStone(selectedStoneField, selection);
-			_selectionMode = stone;
+			_selectionMode = _stone;
 		}
-
 	}
 
 	if (selectedStoneField != NULL)
-		_selectionMode = field;
+		_selectionMode = _field;
 
-	if (stoneMoved != NULL && !movePossible(stoneMoved))
+	if (stoneMoved != NULL && !canBeatStone(stoneMoved))
 		selection = NULL;
-	else if (stoneMoved != NULL && movePossible(stoneMoved))
+	else if (stoneMoved != NULL && canBeatStone(stoneMoved))
 		selectedStoneField = stoneMoved->_field;
 
 	drawPitch();
@@ -948,12 +816,14 @@ void startGame(void) {
 	drawScoreDisplay(stoneBlack, 127 - STONEWIDTH + 2, 95 - STONEHEIGHT);
 
 	_changed = nothing;
-	_selectionMode = stone;
+	_selectionMode = _stone;
 
 	currentPlayer = &players[0];
 	selectedStoneField = NULL;
 	selection = getFirstStoneAlive(currentPlayer);
 	stoneMoved = NULL;
+
+
 
 	drawPitch();
 
@@ -970,7 +840,7 @@ void startGame(void) {
 			switchPlayer();
 			stoneMoved = NULL;
 		} else if (stoneMoved != NULL && STONEBEATEN
-				&& !movePossible(stoneMoved)) {
+				&& !canBeatStone(stoneMoved)) {
 			switchPlayer();
 			stoneMoved = NULL;
 			STONEBEATEN = 0;

@@ -41,8 +41,6 @@
 #include <string.h>
 
 unsigned char g_pucFrame[6144];
-int displayWidth = 128;
-int displayHeight = 96;
 int pin0 = 1;
 int pin1 = 2;
 int pin2 = 4;

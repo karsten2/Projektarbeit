@@ -43,8 +43,10 @@
 								<option id="com.ti.ccstudio.buildDefinitions.TMS470_15.9.compilerID.LITTLE_ENDIAN.1878492859" name="Little endian code [See 'General' page to edit] (--little_endian, -me)" superClass="com.ti.ccstudio.buildDefinitions.TMS470_15.9.compilerID.LITTLE_ENDIAN" value="true" valueType="boolean"/>
 								<option id="com.ti.ccstudio.buildDefinitions.TMS470_15.9.compilerID.OPT_LEVEL.1041150297" name="Optimization level (--opt_level, -O)" superClass="com.ti.ccstudio.buildDefinitions.TMS470_15.9.compilerID.OPT_LEVEL" value="com.ti.ccstudio.buildDefinitions.TMS470_15.9.compilerID.OPT_LEVEL.2" valueType="enumerated"/>
 								<option id="com.ti.ccstudio.buildDefinitions.TMS470_15.9.compilerID.INCLUDE_PATH.1035907981" name="Add dir to #include search path (--include_path, -I)" superClass="com.ti.ccstudio.buildDefinitions.TMS470_15.9.compilerID.INCLUDE_PATH" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${PROJECT_ROOT}/libs&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${PROJECT_ROOT}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${PROJECT_ROOT}/libs/driverlib&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${PROJECT_ROOT}/libs&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${PROJECT_ROOT}/libs/mcos&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${CG_TOOL_ROOT}/include&quot;"/>
 								</option>
 								<option id="com.ti.ccstudio.buildDefinitions.TMS470_15.9.compilerID.DEBUGGING_MODEL.129808285" name="Debugging model" superClass="com.ti.ccstudio.buildDefinitions.TMS470_15.9.compilerID.DEBUGGING_MODEL" value="com.ti.ccstudio.buildDefinitions.TMS470_15.9.compilerID.DEBUGGING_MODEL.SYMDEBUG__DWARF" valueType="enumerated"/>
@@ -53,7 +55,7 @@
 								</option>
 								<option id="com.ti.ccstudio.buildDefinitions.TMS470_15.9.compilerID.GEN_FUNC_SUBSECTIONS.807587782" name="Place each function in a separate subsection (--gen_func_subsections, -ms)" superClass="com.ti.ccstudio.buildDefinitions.TMS470_15.9.compilerID.GEN_FUNC_SUBSECTIONS" value="com.ti.ccstudio.buildDefinitions.TMS470_15.9.compilerID.GEN_FUNC_SUBSECTIONS.on" valueType="enumerated"/>
 								<option id="com.ti.ccstudio.buildDefinitions.TMS470_15.9.compilerID.UAL.302653005" name="Use unified assembly language (--ual)" superClass="com.ti.ccstudio.buildDefinitions.TMS470_15.9.compilerID.UAL" value="true" valueType="boolean"/>
-								<option id="com.ti.ccstudio.buildDefinitions.TMS470_15.9.compilerID.PREINCLUDE.1211384292" name="Specify a preinclude file (--preinclude)" superClass="com.ti.ccstudio.buildDefinitions.TMS470_15.9.compilerID.PREINCLUDE" valueType="stringList"/>
+								<option id="com.ti.ccstudio.buildDefinitions.TMS470_15.9.compilerID.PREINCLUDE.1211384292" name="Specify a preinclude file (--preinclude)" superClass="com.ti.ccstudio.buildDefinitions.TMS470_15.9.compilerID.PREINCLUDE"/>
 								<option id="com.ti.ccstudio.buildDefinitions.TMS470_15.9.compilerID.SYMDEBUG__KEEP_ALL_TYPES.263071316" name="Keep unreferenced type info (default for elf w/ debug) (--symdebug:keep_all_types)" superClass="com.ti.ccstudio.buildDefinitions.TMS470_15.9.compilerID.SYMDEBUG__KEEP_ALL_TYPES" value="false" valueType="boolean"/>
 								<option id="com.ti.ccstudio.buildDefinitions.TMS470_15.9.compilerID.OPTIMIZE_WITH_DEBUG.1400902034" name="Optimize fully in the presence of debug (DEPRECATED) (--optimize_with_debug, -mn)" superClass="com.ti.ccstudio.buildDefinitions.TMS470_15.9.compilerID.OPTIMIZE_WITH_DEBUG" value="com.ti.ccstudio.buildDefinitions.TMS470_15.9.compilerID.OPTIMIZE_WITH_DEBUG.off" valueType="enumerated"/>
 								<inputType id="com.ti.ccstudio.buildDefinitions.TMS470_15.9.compiler.inputType__C_SRCS.889412692" name="C Sources" superClass="com.ti.ccstudio.buildDefinitions.TMS470_15.9.compiler.inputType__C_SRCS"/>
