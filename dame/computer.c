@@ -31,6 +31,8 @@ int movePossible(struct stone *_stone) {
 			}
 		}
 	}
+
+	return 0;
 }
 
 /**
@@ -102,9 +104,10 @@ int canBeatStone(struct stone *_stone) {
 /**
  * Find all Stones the player can move.
  */
+/*
 dynStoneArray findMovableStones(void) {
 
-	int i;
+	//int i;
 	dynStoneArray ret;
 
 	for (i = 0;
@@ -117,28 +120,29 @@ dynStoneArray findMovableStones(void) {
 	}
 
 	return ret;
-}
+}*/
 
 /**
  * Find the stones the player can beat.
  */
-dynStoneArray findBeatableStones(dynStoneArray *stones) {
-	int i;
-	dynStoneArray ret;
+//dynStoneArray findBeatableStones(dynStoneArray *stones) {
 
+	//int i;
+	dynStoneArray ret;
+	/*
 	for (i = 0; i < sizeof(stones) / sizeof(stones[0]); i++) {
 		if (stones[i].alive && canBeatStone(stones[i])) {
 			stoneArray_append(ret, stones[i]);
 		}
 	}
-
-	return ret;
-}
+	*/
+	//return ret;
+//}
 
 void computerDoMove(void) {
 	stoneArray_init(&movableStones);
 
-	movableStones = findMovableStones();
-	beatableStones = findBeatableStones(movableStones);
+	//movableStones = findMovableStones();
+	//beatableStones = findBeatableStones(movableStones);
 
 }
