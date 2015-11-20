@@ -1,6 +1,5 @@
 #include "globals.h"
 #include "dynStone.h"
-
 #include <stdio.h>
 
 dynStoneArray movableStones;
@@ -32,6 +31,7 @@ int movePossible(struct stone *_stone) {
 			}
 		}
 	}
+
 	return 0;
 }
 
