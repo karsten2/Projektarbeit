@@ -569,7 +569,7 @@ void updateScorboard(void) {
 		p2 = currentPlayer;
 	}
 
-	// draw the stones in 4 rows à 3 stones.
+	// draw the stones in 4 rows ï¿½ 3 stones.
 	for (i = 0; i < sizeof(p2->stones) / sizeof(p2->stones[0]); i++) {
 
 		// draw score for p1
@@ -739,6 +739,72 @@ void moveStone(struct field *src, struct field *dst) {
 
 	drawStoneInField(dst);
 
+}
+
+/**
+ * Function checks, if player can beat a stone.
+ */
+int canBeatStone(struct stone *_stone) {
+
+	int ret = 0;
+
+	if (_stone != NULL) {
+		if (_stone->king) {
+			// any direction
+
+			if (_stone->_field->bottomLeft->_stone != NULL
+					&& !playerOwnsStone(currentPlayer,
+							_stone->_field->bottomLeft->_stone) && _stone->_field->bottomLeft->bottomLeft->_stone == NULL) {
+				ret += canBeatStone(_stone->_field->bottomLeft->_stone);
+				return ret;
+			} else if (_stone->_field->bottomRight->_stone != NULL
+					&& !playerOwnsStone(currentPlayer,
+							_stone->_field->bottomRight->_stone) && _stone->_field->bottomRight->bottomRight->_stone == NULL) {
+				ret += canBeatStone(_stone->_field->bottomRight->_stone);
+				return ret;
+			} else if (_stone->_field->topLeft->_stone != NULL
+					&& !playerOwnsStone(currentPlayer,
+							_stone->_field->topLeft->_stone) && _stone->_field->topLeft->topLeft->_stone == NULL) {
+				return ret + canBeatStone(_stone->_field->topLeft->_stone);
+			} else if (_stone->_field->topRight->_stone != NULL
+					&& !playerOwnsStone(currentPlayer,
+							_stone->_field->topRight->_stone) && _stone->_field->topRight->topRight->_stone == NULL) {
+				return ret + canBeatStone(_stone->_field->topRight->_stone);
+			}
+
+		} else {
+			if (currentPlayer->position) {
+				// top
+				// Checks if bottomLeft or bottomRight contains an enemy stone
+				// and if bottomLeft or bottomRight of this stone is empty ->
+				if (_stone->_field->bottomLeft->_stone != NULL
+						&& !playerOwnsStone(currentPlayer,
+								_stone->_field->bottomLeft->_stone) && _stone->_field->bottomLeft->bottomLeft->_stone == NULL) {
+					return 1;
+				} else if (_stone->_field->bottomRight->_stone != NULL
+						&& !playerOwnsStone(currentPlayer,
+								_stone->_field->bottomRight->_stone) && _stone->_field->bottomRight->bottomRight->_stone == NULL) {
+					return 1;
+				}
+			} else {
+				// bottom
+				// top
+				// Checks if bottomLeft or bottomRight contains an enemy stone
+				// and if bottomLeft or bottomRight of this stone is empty ->
+				if (_stone->_field->topLeft->_stone != NULL
+						&& !playerOwnsStone(currentPlayer,
+								_stone->_field->topLeft->_stone) && _stone->_field->topLeft->topLeft->_stone == NULL) {
+					return 1;
+				} else if (_stone->_field->topRight->_stone != NULL
+						&& !playerOwnsStone(currentPlayer,
+								_stone->_field->topRight->_stone) && _stone->_field->topRight->topRight->_stone == NULL) {
+					return 1;
+				}
+			}
+		}
+	}
+
+	return ret;
 }
 
 /**
