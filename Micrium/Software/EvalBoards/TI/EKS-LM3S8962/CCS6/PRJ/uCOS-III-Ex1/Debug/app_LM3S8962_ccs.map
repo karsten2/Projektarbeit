@@ -1,0 +1,1198 @@
+******************************************************************************
+                  TI ARM Linker PC v5.2.6                      
+******************************************************************************
+>> Linked Tue Nov 24 09:48:15 2015
+
+OUTPUT FILE NAME:   <uCOS-III-Ex1.out>
+ENTRY POINT SYMBOL: "_c_int00"  address: 000033e9
+
+
+MEMORY CONFIGURATION
+
+         name            origin    length      used     unused   attr    fill
+----------------------  --------  ---------  --------  --------  ----  --------
+  FLASH                 00000000   00040000  00004474  0003bb8c  R  X
+  SRAM                  20000000   00018000  00002318  00015ce8  RW X
+
+
+SEGMENT ALLOCATION MAP
+
+run origin  load origin   length   init length attrs members
+----------  ----------- ---------- ----------- ----- -------
+00000000    00000000    00004478   00004478    r-x
+  00000000    00000000    0000011c   0000011c    r-- .intvecs
+  0000011c    0000011c    00003fa4   00003fa4    r-x .text
+  000040c0    000040c0    0000037c   0000037c    r-- .const
+  00004440    00004440    00000038   00000038    r-- .cinit
+20000000    20000000    0000231b   00000000    rw-
+  20000000    20000000    00002201   00000000    rw- .bss
+  20002204    20002204    00000100   00000000    rw- .stack
+  20002304    20002304    00000017   00000000    rw- .data
+
+
+SECTION ALLOCATION MAP
+
+ output                                  attributes/
+section   page    origin      length       input sections
+--------  ----  ----------  ----------   ----------------
+.intvecs   0    00000000    0000011c     
+                  00000000    0000011c     app_vect.obj (.intvecs)
+
+.text      0    0000011c    00003fa4     
+                  0000011c    00000198     os_task.obj (.text:OSTaskCreate)
+                  000002b4    00000180     os_stat.obj (.text:OS_StatTask)
+                  00000434    00000180     sysctl.obj (.text:SysCtlClockGet)
+                  000005b4    00000148     os_core.obj (.text:OSInit)
+                  000006fc    00000140     os_sem.obj (.text:OSSemPend)
+                  0000083c    00000140     os_task.obj (.text:OSTaskSemPend)
+                  0000097c    00000130     os_tick.obj (.text:OS_TickListUpdate)
+                  00000aac    0000012c     sysctl.obj (.text:SysCtlClockSet)
+                  00000bd8    00000128     os_time.obj (.text:OSTimeDlyHMSM)
+                  00000d00    000000fc     app.obj (.text:AppTaskDisplay)
+                  00000dfc    000000f4     os_tmr.obj (.text:OS_TmrInit)
+                  00000ef0    000000f4     probe_com.obj (.text:ProbeCom_ReqQuery)
+                  00000fe4    000000ec     probe_rs232.obj (.text:ProbeRS232_TxHandler)
+                  000010d0    000000e8     os_task.obj (.text:OSTaskDel)
+                  000011b8    000000e4     rit128x96x4.obj (.text:RIT128x96x4StringDraw)
+                  0000129c    000000dc     os_tick.obj (.text:OS_TickListInsert)
+                  00001378    000000d0     cpu_c.obj (.text:CPU_IntSrcEn)
+                  00001448    000000d0     probe_com.obj (.text:ProbeCom_ParseRxPkt)
+                  00001518    000000ca     os_task.obj (.text:OS_TaskInitTCB)
+                  000015e2    000000ba     gpio.obj (.text:GPIOPadConfigSet)
+                  0000169c    000000b8     os_stat.obj (.text:OS_StatTaskInit)
+                  00001754    000000b0     os_stat.obj (.text:OSStatReset)
+                  00001804    000000b0     probe_rs232.obj (.text:ProbeRS232_RxHandler)
+                  000018b4    000000a8     os_task.obj (.text:OS_TaskSemPost)
+                  0000195c    000000a8     probe_com.obj (.text:ProbeCom_Init)
+                  00001a04    000000a8     probe_com.obj (.text:ProbeCom_ReqWrMulti)
+                  00001aac    000000a4     os_tmr.obj (.text:OS_TmrTask)
+                  00001b50    000000a4     probe_com.obj (.text:ProbeCom_ReqRdMulti)
+                  00001bf4    000000a2     os_cpu_a.obj (.text)
+                  00001c96    00000002     app_vect.obj (.text:App_BusFault_ISR)
+                  00001c98    000000a0     os_time.obj (.text:OSTimeDly)
+                  00001d38    000000a0     os_tmr.obj (.text:OS_TmrLink)
+                  00001dd8    0000009c     os_task.obj (.text:OSTaskStkChk)
+                  00001e74    0000009c     rtsv7M3_T_le_eabi.lib : memcpy_t2.obj (.text)
+                  00001f10    00000098     os_stat.obj (.text:OSStatTaskCPUUsageInit)
+                  00001fa8    00000096     os_core.obj (.text:OS_Post)
+                  0000203e    00000002     app_vect.obj (.text:App_Fault_ISR)
+                  00002040    00000094     probe_rs232c.obj (.text:ProbeRS232_InitTarget)
+                  000020d4    00000092     probe_com.obj (.text:ProbeCom_BufWr)
+                  00002166    00000090     os_sem.obj (.text:OS_SemPost)
+                  000021f6    00000090     probe_com.obj (.text:ProbeCom_BufRd)
+                  00002286    00000002     app_vect.obj (.text:App_MemFault_ISR)
+                  00002288    00000088     os_core.obj (.text:OSIntExit)
+                  00002310    00000088     os_tick.obj (.text:OS_TickTaskInit)
+                  00002398    00000088     probe_com.obj (.text:ProbeCom_ReqWr)
+                  00002420    00000088     rit128x96x4.obj (.text:RIT128x96x4Init)
+                  000024a8    00000084     os_cpu_c.obj (.text:OSTaskStkInit)
+                  0000252c    00000080     probe_rs232_os.obj (.text:ProbeRS232_OS_Init)
+                  000025ac    0000007c     cpu_core.obj (.text:CPU_IntDisMeasInit)
+                  00002628    0000007a     rtsv7M3_T_le_eabi.lib : memset_t2.obj (.text)
+                  000026a2    00000002     app_vect.obj (.text:App_NMI_ISR)
+                  000026a4    00000078     app.obj (.text:AppTaskStart)
+                  0000271c    00000078     probe_com.obj (.text:ProbeCom_ReqRd)
+                  00002794    00000074     os_core.obj (.text:OSSched)
+                  00002808    00000074     os_core.obj (.text:OSSchedUnlock)
+                  0000287c    00000070     os_cpu_c.obj (.text:OSTaskSwHook)
+                  000028ec    0000006c     os_sem.obj (.text:OSSemCreate)
+                  00002958    0000006c     os_core.obj (.text:OS_IdleTaskInit)
+                  000029c4    0000006c     os_core.obj (.text:OS_SchedRoundRobin)
+                  00002a30    0000006c     rtsv7M3_T_le_eabi.lib : autoinit.obj (.text)
+                  00002a9c    0000006a                           : copy_decompress_rle.obj (.text)
+                  00002b06    00000002     app_vect.obj (.text:App_Spurious_ISR)
+                  00002b08    00000064     os_core.obj (.text:OS_RdyListRemove)
+                  00002b6c    00000064     app.obj (.text:main)
+                  00002bd0    00000060     probe_com.obj (.text:ProbeCom_ReqStrIn)
+                  00002c30    0000005c     os_core.obj (.text:OSSchedLock)
+                  00002c8c    0000005c     probe_com.obj (.text:ProbeCom_ReqStrOut)
+                  00002ce8    0000005c     rit128x96x4.obj (.text:RIT128x96x4Enable)
+                  00002d44    0000005a     os_core.obj (.text:OS_PendListInsertPrio)
+                  00002d9e    00000058     lib_mem.obj (.text:Mem_Copy)
+                  00002df6    00000002     app_vect.obj (.text:App_UsageFault_ISR)
+                  00002df8    00000058     os_core.obj (.text:OSStart)
+                  00002e50    00000058     os_time.obj (.text:OSTimeTick)
+                  00002ea8    00000054     bsp.obj (.text:BSP_PB_Init)
+                  00002efc    00000054     probe_rs232.obj (.text:ProbeRS232_Init)
+                  00002f50    00000050     app.obj (.text:AppDisplayTaskCreate)
+                  00002fa0    00000050     os_tmr.obj (.text:OS_TmrUnlink)
+                  00002ff0    0000004c     rtsv7M3_T_le_eabi.lib : cpy_tbl.obj (.text)
+                  0000303c    00000048     cpu_core.obj (.text:CPU_IntDisMeasStop)
+                  00003084    00000048     lib_mem.obj (.text:Mem_Set)
+                  000030cc    00000048     os_core.obj (.text:OS_Pend)
+                  00003114    00000048     rit128x96x4.obj (.text:RIT128x96x4Clear)
+                  0000315c    00000047     os_core.obj (.text:OS_PendDbgNameAdd)
+                  000031a3    00000001     --HOLE-- [fill = 0]
+                  000031a4    00000044     os_task.obj (.text:OS_TaskDbgListRemove)
+                  000031e8    00000044     probe_rs232c.obj (.text:ProbeRS232_RxTxISRHandler)
+                  0000322c    00000044     rtsv7M3_T_le_eabi.lib : exit.obj (.text)
+                  00003270    00000042     ssi.obj (.text:SSIConfigSetExpClk)
+                  000032b2    00000002     bsp_int.obj (.text:BSP_IntHandlerDummy)
+                  000032b4    00000040     os_msg.obj (.text:OS_MsgPoolInit)
+                  000032f4    00000040     sysctl.obj (.text:SysCtlPeripheralReset)
+                  00003334    0000003c     os_core.obj (.text:OS_PendListRemove1)
+                  00003370    0000003c     rit128x96x4.obj (.text:RITWriteCommand)
+                  000033ac    0000003c     rit128x96x4.obj (.text:RITWriteData)
+                  000033e8    0000003c     rtsv7M3_T_le_eabi.lib : boot.obj (.text)
+                  00003424    00000038     os_sem.obj (.text:OSSemPost)
+                  0000345c    00000038     os_core.obj (.text:OS_IdleTask)
+                  00003494    00000038     os_msg.obj (.text:OS_MsgQFreeAll)
+                  000034cc    00000038     os_core.obj (.text:OS_RdyListInsertHead)
+                  00003504    00000038     os_core.obj (.text:OS_RdyListInsertTail)
+                  0000353c    00000038     os_core.obj (.text:OS_SchedLockTimeMeasStop)
+                  00003574    00000034     os_tick.obj (.text:OS_TickListRemove)
+                  000035a8    00000034     probe_com.obj (.text:ProbeCom_ReqErr)
+                  000035dc    00000034     probe_rs232.obj (.text:ProbeRS232_ParseRxPkt)
+                  00003610    00000032     os_core.obj (.text:OS_RdyListMoveHeadToTail)
+                  00003642    00000002     os_cfg_app.obj (.text:OSCfg_Init)
+                  00003644    00000030     bsp.obj (.text:BSP_LED_Init)
+                  00003674    00000030     cpu_core.obj (.text:CPU_IntDisMeasStart)
+                  000036a4    00000030     os_msg.obj (.text:OS_MsgPoolCreate)
+                  000036d4    0000002c     bsp_int.obj (.text:BSP_IntVectSet)
+                  00003700    0000002c     os_cpu_c.obj (.text:OS_CPU_SysTickHandler)
+                  0000372c    0000002c     os_core.obj (.text:OS_RdyListInsert)
+                  00003758    0000002a     gpio.obj (.text:GPIODirModeSet)
+                  00003782    0000002a     cpu_a.obj (.text)
+                  000037ac    00000028     bsp.obj (.text:BSP_LED_Toggle)
+                  000037d4    00000028     os_cpu_c.obj (.text:OS_CPU_SysTickInit)
+                  000037fc    00000028     os_core.obj (.text:OS_PendDataInit)
+                  00003824    00000028     os_prio.obj (.text:OS_PrioGetHighest)
+                  0000384c    00000028     os_core.obj (.text:OS_TaskBlock)
+                  00003874    00000028     os_tick.obj (.text:OS_TickTask)
+                  0000389c    00000028     probe_com.obj (.text:ProbeCom_BufIsEmpty)
+                  000038c4    00000024     bsp.obj (.text:BSP_Init)
+                  000038e8    00000024     cpu_core.obj (.text:CPU_NameClr)
+                  0000390c    00000024     os_core.obj (.text:OS_PendListRemove)
+                  00003930    00000024     os_core.obj (.text:OS_Post1)
+                  00003954    00000024     os_prio.obj (.text:OS_PrioInsert)
+                  00003978    00000024     os_prio.obj (.text:OS_PrioRemove)
+                  0000399c    00000024     os_core.obj (.text:OS_RdyListInit)
+                  000039c0    00000024     os_sem.obj (.text:OS_SemDbgListAdd)
+                  000039e4    00000024     os_task.obj (.text:OS_TaskDbgListAdd)
+                  00003a08    00000024     os_task.obj (.text:OS_TaskInit)
+                  00003a2c    00000024     os_tick.obj (.text:OS_TickListInit)
+                  00003a50    00000020     bsp_int.obj (.text:BSP_IntHandler)
+                  00003a70    00000020     cpu_core.obj (.text:CPU_IntDisMeasMaxCurReset)
+                  00003a90    00000020     os_cpu_c.obj (.text:OSInitHook)
+                  00003ab0    00000020     os_core.obj (.text:OSIntEnter)
+                  00003ad0    00000020     os_tick.obj (.text:OS_TickListResetPeak)
+                  00003af0    00000020     os_tmr.obj (.text:OS_TmrResetPeak)
+                  00003b10    00000020     probe_rs232.obj (.text:ProbeRS232_RxStoINT8U)
+                  00003b30    00000020     sysctl.obj (.text:SysCtlPeripheralEnable)
+                  00003b50    0000001c     cpu_core.obj (.text:CPU_IntDisMeasMaxCurGet)
+                  00003b6c    0000001c     cpu_core.obj (.text:CPU_IntDisMeasMaxGet)
+                  00003b88    0000001c     os_core.obj (.text:OS_SchedLockTimeMeasStart)
+                  00003ba4    0000001c     probe_rs232.obj (.text:ProbeRS232_Task)
+                  00003bc0    0000001a     os_task.obj (.text:OSTaskSemPost)
+                  00003bda    00000002     os_dbg.obj (.text:OS_Dbg_Init)
+                  00003bdc    0000001a     os_core.obj (.text:OS_PendDbgNameRemove)
+                  00003bf6    00000018     app_probe.obj (.text:App_ProbeInit)
+                  00003c0e    00000002     --HOLE-- [fill = 0]
+                  00003c10    00000018     bsp_int.obj (.text:BSP_IntInit)
+                  00003c28    00000018     os_flag.obj (.text:OS_FlagInit)
+                  00003c40    00000018     os_mem.obj (.text:OS_MemInit)
+                  00003c58    00000018     os_mutex.obj (.text:OS_MutexInit)
+                  00003c70    00000018     os_q.obj (.text:OS_QInit)
+                  00003c88    00000018     os_sem.obj (.text:OS_SemInit)
+                  00003ca0    00000018     os_core.obj (.text:OS_TaskRdy)
+                  00003cb8    00000018     os_task.obj (.text:OS_TaskReturn)
+                  00003cd0    00000018     probe_com.obj (.text:ProbeCom_GetINT16U)
+                  00003ce8    00000018     probe_com.obj (.text:ProbeCom_StrOutAvail)
+                  00003d00    00000018     probe_rs232_os.obj (.text:ProbeRS232_OS_Pend)
+                  00003d18    00000018     probe_rs232.obj (.text:ProbeRS232_TxStart)
+                  00003d30    00000018     rtsv7M3_T_le_eabi.lib : args_main.obj (.text)
+                  00003d48    00000016     probe_com.obj (.text:ProbeCom_GetINT32U)
+                  00003d5e    00000002     --HOLE-- [fill = 0]
+                  00003d60    00000014     bsp.obj (.text:BSP_LED_Off)
+                  00003d74    00000014     bsp.obj (.text:BSP_LED_On)
+                  00003d88    00000014     cpu_core.obj (.text:CPU_IntDisMeasMaxCalc)
+                  00003d9c    00000014     cpu_bsp.obj (.text:CPU_TS_TmrInit)
+                  00003db0    00000014     os_prio.obj (.text:OS_PrioInit)
+                  00003dc4    00000014     probe_rs232_os.obj (.text:ProbeRS232_OS_Post)
+                  00003dd8    00000014     sysctl.obj (.text:SysCtlDelay)
+                  00003dec    00000014     rtsv7M3_T_le_eabi.lib : _lock.obj (.text)
+                  00003e00    00000012     gpio.obj (.text:GPIOPinTypeGPIOOutput)
+                  00003e12    00000012     gpio.obj (.text:GPIOPinTypeSSI)
+                  00003e24    00000012     gpio.obj (.text:GPIOPinTypeUART)
+                  00003e36    00000012     probe_com.obj (.text:ProbeCom_StoINT16U)
+                  00003e48    00000012     ssi.obj (.text:SSIDataGetNonBlocking)
+                  00003e5a    00000010     cpu_core.obj (.text:CPU_Init)
+                  00003e6a    00000002     --HOLE-- [fill = 0]
+                  00003e6c    00000010     cpu_core.obj (.text:CPU_TS_Init)
+                  00003e7c    00000010     os_cpu_c.obj (.text:OSIdleTaskHook)
+                  00003e8c    00000010     os_cpu_c.obj (.text:OSStatTaskHook)
+                  00003e9c    00000010     os_cpu_c.obj (.text:OSTaskCreateHook)
+                  00003eac    00000010     os_cpu_c.obj (.text:OSTaskDelHook)
+                  00003ebc    00000010     os_cpu_c.obj (.text:OSTaskReturnHook)
+                  00003ecc    00000010     os_cpu_c.obj (.text:OSTimeTickHook)
+                  00003edc    00000010     probe_com.obj (.text:ProbeCom_PktModifier)
+                  00003eec    00000010     probe_rs232c.obj (.text:ProbeRS232_RxIntEn)
+                  00003efc    00000010     probe_rs232c.obj (.text:ProbeRS232_TxIntDis)
+                  00003f0c    00000010     probe_rs232c.obj (.text:ProbeRS232_TxIntEn)
+                  00003f1c    0000000e     bsp_int.obj (.text:BSP_IntEn)
+                  00003f2a    0000000e     os_msg.obj (.text:OS_MsgQInit)
+                  00003f38    0000000e     rtsv7M3_T_le_eabi.lib : copy_decompress_none.obj (.text:decompress:none)
+                  00003f46    00000002     --HOLE-- [fill = 0]
+                  00003f48    0000000c     cpu_core.obj (.text:CPU_TS_TmrFreqSet)
+                  00003f54    0000000c     cpu_bsp.obj (.text:CPU_TS_TmrRd)
+                  00003f60    0000000c     probe_com.obj (.text:ProbeCom_BufInit)
+                  00003f6c    0000000c     probe_rs232.obj (.text:ProbeRS232_RxBufClr)
+                  00003f78    0000000c     probe_rs232c.obj (.text:ProbeRS232_Tx1)
+                  00003f84    0000000c     ssi.obj (.text:SSIDataGet)
+                  00003f90    0000000c     rtsv7M3_T_le_eabi.lib : copy_zero_init.obj (.text:decompress:ZI)
+                  00003f9c    0000000a     os_core.obj (.text:OS_PendListInit)
+                  00003fa6    0000000a     probe_com.obj (.text:ProbeCom_GetINT08U)
+                  00003fb0    0000000a     probe_com.obj (.text:ProbeCom_StoINT08U)
+                  00003fba    0000000a     ssi.obj (.text:SSIDataPut)
+                  00003fc4    0000000a     ssi.obj (.text:SSIDisable)
+                  00003fce    0000000a     ssi.obj (.text:SSIEnable)
+                  00003fd8    00000008     lib_mem.obj (.text:Mem_Clr)
+                  00003fe0    00000006     bsp_int.obj (.text:BSP_IntHandlerADC0)
+                  00003fe6    00000006     bsp_int.obj (.text:BSP_IntHandlerADC1)
+                  00003fec    00000006     bsp_int.obj (.text:BSP_IntHandlerADC2)
+                  00003ff2    00000006     bsp_int.obj (.text:BSP_IntHandlerADC3)
+                  00003ff8    00000006     bsp_int.obj (.text:BSP_IntHandlerCAN0)
+                  00003ffe    00000006     bsp_int.obj (.text:BSP_IntHandlerCOMP0)
+                  00004004    00000006     bsp_int.obj (.text:BSP_IntHandlerETH)
+                  0000400a    00000006     bsp_int.obj (.text:BSP_IntHandlerFLASH)
+                  00004010    00000006     bsp_int.obj (.text:BSP_IntHandlerGPIOA)
+                  00004016    00000006     bsp_int.obj (.text:BSP_IntHandlerGPIOB)
+                  0000401c    00000006     bsp_int.obj (.text:BSP_IntHandlerGPIOC)
+                  00004022    00000006     bsp_int.obj (.text:BSP_IntHandlerGPIOD)
+                  00004028    00000006     bsp_int.obj (.text:BSP_IntHandlerGPIOE)
+                  0000402e    00000006     bsp_int.obj (.text:BSP_IntHandlerGPIOF)
+                  00004034    00000006     bsp_int.obj (.text:BSP_IntHandlerGPIOG)
+                  0000403a    00000006     bsp_int.obj (.text:BSP_IntHandlerHIBERNATE)
+                  00004040    00000006     bsp_int.obj (.text:BSP_IntHandlerI2C0)
+                  00004046    00000006     bsp_int.obj (.text:BSP_IntHandlerSSI0)
+                  0000404c    00000006     bsp_int.obj (.text:BSP_IntHandlerSYSCTL)
+                  00004052    00000006     bsp_int.obj (.text:BSP_IntHandlerTIMER0A)
+                  00004058    00000006     bsp_int.obj (.text:BSP_IntHandlerTIMER0B)
+                  0000405e    00000006     bsp_int.obj (.text:BSP_IntHandlerTIMER1A)
+                  00004064    00000006     bsp_int.obj (.text:BSP_IntHandlerTIMER1B)
+                  0000406a    00000006     bsp_int.obj (.text:BSP_IntHandlerTIMER2A)
+                  00004070    00000006     bsp_int.obj (.text:BSP_IntHandlerTIMER2B)
+                  00004076    00000006     bsp_int.obj (.text:BSP_IntHandlerTIMER3A)
+                  0000407c    00000006     bsp_int.obj (.text:BSP_IntHandlerTIMER3B)
+                  00004082    00000006     bsp_int.obj (.text:BSP_IntHandlerUART0)
+                  00004088    00000006     bsp_int.obj (.text:BSP_IntHandlerUART1)
+                  0000408e    00000006     bsp_int.obj (.text:BSP_IntHandlerWATCHDOG)
+                  00004094    00000006     gpio.obj (.text:GPIOPinRead)
+                  0000409a    00000006     gpio.obj (.text:GPIOPinWrite)
+                  000040a0    00000006     app_vect.obj (.text:ResetISR)
+                  000040a6    00000006     rtsv7M3_T_le_eabi.lib : copy_decompress_rle.obj (.text:decompress:rle24)
+                  000040ac    00000004     bsp.obj (.text:BSP_CPU_ClkFreq)
+                  000040b0    00000004     cpu_core.obj (.text:CPU_NameInit)
+                  000040b4    00000004     probe_rs232_os.obj (.text:ProbeRS232_OS_Task)
+                  000040b8    00000004     probe_rs232.obj (.text:ProbeRS232_RxPkt)
+                  000040bc    00000004     rtsv7M3_T_le_eabi.lib : pre_init.obj (.text)
+
+.const     0    000040c0    0000037c     
+                  000040c0    000001e0     rit128x96x4.obj (.const:g_pucFont)
+                  000042a0    000000a4     os_cfg_app.obj (.const)
+                  00004344    0000005c     sysctl.obj (.const:g_pulXtals)
+                  000043a0    0000004f     rit128x96x4.obj (.const:.string:g_pucRIT128x96x4Init)
+                  000043ef    00000001     --HOLE-- [fill = 0]
+                  000043f0    00000040     sysctl.obj (.const)
+                  00004430    0000000c     rit128x96x4.obj (.const:.string)
+
+.cinit     0    00004440    00000038     
+                  00004440    00000012     (.cinit..data.load) [load image, compression = rle]
+                  00004452    00000002     --HOLE-- [fill = 0]
+                  00004454    0000000c     (__TI_handler_table)
+                  00004460    00000008     (.cinit..bss.load) [load image, compression = zero_init]
+                  00004468    00000010     (__TI_cinit_table)
+
+.bss       0    20000000    00002201     UNINITIALIZED
+                  20000000    00000640     os_cfg_app.obj (.bss:OSCfg_MsgPool)
+                  20000640    00000200     app.obj (.bss:AppTaskDisplay_Stk)
+                  20000840    00000200     app.obj (.bss:AppTaskStartStk)
+                  20000a40    00000200     os_cfg_app.obj (.bss:OSCfg_ISRStk)
+                  20000c40    00000200     os_cfg_app.obj (.bss:OSCfg_IdleTaskStk)
+                  20000e40    00000200     os_cfg_app.obj (.bss:OSCfg_StatTaskStk)
+                  20001040    00000200     os_cfg_app.obj (.bss:OSCfg_TickTaskStk)
+                  20001240    00000200     os_cfg_app.obj (.bss:OSCfg_TmrTaskStk)
+                  20001440    00000200     probe_rs232_os.obj (.bss:ProbeRS232_OS_TaskStk)
+                  20001640    00000100     probe_rs232.obj (.bss:ProbeRS232_RxBuf)
+                  20001740    00000100     probe_rs232.obj (.bss:ProbeRS232_TxBuf)
+                  20001840    000000c4     app.obj (.bss:AppTaskDisplay_TCB)
+                  20001904    000000c4     app.obj (.bss:AppTaskStartTCB)
+                  200019c8    000000c4     os_var.obj (.bss:OSIdleTaskTCB)
+                  20001a8c    000000c4     os_var.obj (.bss:OSStatTaskTCB)
+                  20001b50    000000c4     os_var.obj (.bss:OSTickTaskTCB)
+                  20001c14    000000c4     os_var.obj (.bss:OSTmrTaskTCB)
+                  20001cd8    000000c4     probe_rs232_os.obj (.bss:ProbeRS232_OS_TaskTCB)
+                  20001d9c    000000b8     bsp_int.obj (.bss:BSP_IntVectTbl)
+                  20001e54    00000080     probe_com.obj (.bss:ProbeCom_StrInBufData)
+                  20001ed4    00000080     probe_com.obj (.bss:ProbeCom_StrOutBufData)
+                  20001f54    00000068     os_cfg_app.obj (.bss:OSCfg_TickWheel)
+                  20001fbc    00000068     os_cfg_app.obj (.bss:OSCfg_TmrWheel)
+                  20002024    00000060     os_var.obj (.bss:OSRdyList)
+                  20002084    00000028     probe_rs232_os.obj (.bss:ProbeRS232_OS_Sem)
+                  200020ac    00000010     (.common:CPU_Name)
+                  200020bc    00000010     (.common:ProbeCom_StrInBuf)
+                  200020cc    00000010     (.common:ProbeCom_StrOutBuf)
+                  200020dc    00000008     (.common:OSMsgPool)
+                  200020e4    00000008     (.common:g_pucBuffer)
+                  200020ec    00000004     (.common:CPU_IntDisMeasMaxCur_cnts)
+                  200020f0    00000004     (.common:CPU_IntDisMeasMax_cnts)
+                  200020f4    00000004     (.common:CPU_IntDisMeasOvrhd_cnts)
+                  200020f8    00000004     (.common:CPU_IntDisMeasStart_cnts)
+                  200020fc    00000004     (.common:CPU_IntDisMeasStop_cnts)
+                  20002100    00000004     (.common:CPU_TS_TmrFreq_Hz)
+                  20002104    00000004     (.common:OSFlagDbgListPtr)
+                  20002108    00000004     (.common:OSIdleTaskCtr)
+                  2000210c    00000004     (.common:OSIntDisTimeMax)
+                  20002110    00000004     (.common:OSMemDbgListPtr)
+                  20002114    00000004     (.common:OSMutexDbgListPtr)
+                  20002118    00000004     (.common:OSPrioTbl)
+                  2000211c    00000004     (.common:OSQDbgListPtr)
+                  20002120    00000004     (.common:OSSchedLockTimeBegin)
+                  20002124    00000004     (.common:OSSchedLockTimeMax)
+                  20002128    00000004     (.common:OSSchedLockTimeMaxCur)
+                  2000212c    00000004     (.common:OSSchedRoundRobinDfltTimeQuanta)
+                  20002130    00000004     (.common:OSSemDbgListPtr)
+                  20002134    00000004     (.common:OSStatTaskCtr)
+                  20002138    00000004     (.common:OSStatTaskCtrMax)
+                  2000213c    00000004     (.common:OSStatTaskCtrRun)
+                  20002140    00000004     (.common:OSStatTaskTimeMax)
+                  20002144    00000004     (.common:OSTCBCurPtr)
+                  20002148    00000004     (.common:OSTCBHighRdyPtr)
+                  2000214c    00000004     (.common:OSTaskCtxSwCtr)
+                  20002150    00000004     (.common:OSTaskDbgListPtr)
+                  20002154    00000004     (.common:OSTickCtr)
+                  20002158    00000004     (.common:OSTickTaskTimeMax)
+                  2000215c    00000004     (.common:OSTmrDbgListPtr)
+                  20002160    00000004     (.common:OSTmrTaskTimeMax)
+                  20002164    00000004     (.common:OSTmrTickCtr)
+                  20002168    00000004     (.common:OSTmrUpdateCnt)
+                  2000216c    00000004     (.common:OSTmrUpdateCtr)
+                  20002170    00000004     (.common:OS_AppIdleTaskHookPtr)
+                  20002174    00000004     (.common:OS_AppStatTaskHookPtr)
+                  20002178    00000004     (.common:OS_AppTaskCreateHookPtr)
+                  2000217c    00000004     (.common:OS_AppTaskDelHookPtr)
+                  20002180    00000004     (.common:OS_AppTaskReturnHookPtr)
+                  20002184    00000004     (.common:OS_AppTaskSwHookPtr)
+                  20002188    00000004     (.common:OS_AppTimeTickHookPtr)
+                  2000218c    00000004     (.common:OS_CPU_ExceptStkBase)
+                  20002190    00000004     (.common:ProbeCom_EndiannessTest)
+                  20002194    00000004     (.common:ProbeCom_ErrPktCtr)
+                  20002198    00000004     (.common:ProbeCom_RxPktCtr)
+                  2000219c    00000004     (.common:ProbeCom_RxSymByteCtr)
+                  200021a0    00000004     (.common:ProbeCom_RxSymCtr)
+                  200021a4    00000004     (.common:ProbeCom_StrRxCtr)
+                  200021a8    00000004     (.common:ProbeCom_StrRxOvfErrCtr)
+                  200021ac    00000004     (.common:ProbeCom_StrTxCtr)
+                  200021b0    00000004     (.common:ProbeCom_StrTxOvfErrCtr)
+                  200021b4    00000004     (.common:ProbeCom_TxPktCtr)
+                  200021b8    00000004     (.common:ProbeCom_TxSymByteCtr)
+                  200021bc    00000004     (.common:ProbeCom_TxSymCtr)
+                  200021c0    00000004     (.common:ProbeRS232_RxBufWrIx)
+                  200021c4    00000004     (.common:ProbeRS232_RxCtr)
+                  200021c8    00000004     (.common:ProbeRS232_RxLen)
+                  200021cc    00000004     (.common:ProbeRS232_RxLenRem)
+                  200021d0    00000004     (.common:ProbeRS232_RxPktCtr)
+                  200021d4    00000004     (.common:ProbeRS232_TxBufRdIx)
+                  200021d8    00000004     (.common:ProbeRS232_TxCtr)
+                  200021dc    00000004     (.common:ProbeRS232_TxLen)
+                  200021e0    00000004     (.common:g_ulInlineCCSWorkaround)
+                  200021e4    00000002     (.common:CPU_IntDisMeasCtr)
+                  200021e6    00000002     (.common:CPU_IntDisNestCtr)
+                  200021e8    00000002     (.common:OSFlagQty)
+                  200021ea    00000002     (.common:OSMemQty)
+                  200021ec    00000002     (.common:OSMutexQty)
+                  200021ee    00000002     (.common:OSQQty)
+                  200021f0    00000002     (.common:OSSemQty)
+                  200021f2    00000002     (.common:OSTaskQty)
+                  200021f4    00000001     (.common:OSIntNestingCtr)
+                  200021f5    00000001     (.common:OSPrioCur)
+                  200021f6    00000001     (.common:OSPrioHighRdy)
+                  200021f7    00000001     (.common:OSRunning)
+                  200021f8    00000001     (.common:OSSchedLockNestingCtr)
+                  200021f9    00000001     (.common:OSSchedRoundRobinEn)
+                  200021fa    00000001     (.common:OSStatResetFlag)
+                  200021fb    00000001     (.common:OSStatTaskCPUUsage)
+                  200021fc    00000001     (.common:OSStatTaskRdy)
+                  200021fd    00000001     (.common:ProbeRS232_RxState)
+                  200021fe    00000001     (.common:ProbeRS232_TxActiveFlag)
+                  200021ff    00000001     (.common:ProbeRS232_TxBufInUse)
+                  20002200    00000001     (.common:ProbeRS232_TxState)
+
+.TI.noinit 
+*          0    20000000    00000000     UNINITIALIZED
+
+.stack     0    20002204    00000100     UNINITIALIZED
+                  20002204    00000100     --HOLE--
+
+.data      0    20002304    00000017     UNINITIALIZED
+                  20002304    00000008     rtsv7M3_T_le_eabi.lib : _lock.obj (.data)
+                  2000230c    00000008                           : exit.obj (.data)
+                  20002314    00000004                           : stkdepth_vars.obj (.data)
+                  20002318    00000002     app.obj (.data)
+                  2000231a    00000001     rit128x96x4.obj (.data)
+
+.TI.persistent 
+*          0    20002304    00000000     UNINITIALIZED
+
+
+LINKER GENERATED COPY TABLES
+
+__TI_cinit_table @ 00004468 records: 2, size/record: 8, table size: 16
+	.data: load addr=00004440, load size=00000012 bytes, run addr=20002304, run size=00000017 bytes, compression=rle
+	.bss: load addr=00004460, load size=00000008 bytes, run addr=20000000, run size=00002201 bytes, compression=zero_init
+
+
+LINKER GENERATED HANDLER TABLE
+
+__TI_handler_table @ 00004454 records: 3, size/record: 4, table size: 12
+	index: 0, handler: __TI_decompress_rle24
+	index: 1, handler: __TI_decompress_none
+	index: 2, handler: __TI_zero_init
+
+
+GLOBAL SYMBOLS: SORTED ALPHABETICALLY BY Name 
+
+address   name                           
+-------   ----                           
+00003bf7  App_ProbeInit                  
+000040ad  BSP_CPU_ClkFreq                
+000038c5  BSP_Init                       
+00003783  BSP_IntDisAll                  
+00003f1d  BSP_IntEn                      
+00003fe1  BSP_IntHandlerADC0             
+00003fe7  BSP_IntHandlerADC1             
+00003fed  BSP_IntHandlerADC2             
+00003ff3  BSP_IntHandlerADC3             
+00003ff9  BSP_IntHandlerCAN0             
+00003fff  BSP_IntHandlerCOMP0            
+00004005  BSP_IntHandlerETH              
+0000400b  BSP_IntHandlerFLASH            
+00004011  BSP_IntHandlerGPIOA            
+00004017  BSP_IntHandlerGPIOB            
+0000401d  BSP_IntHandlerGPIOC            
+00004023  BSP_IntHandlerGPIOD            
+00004029  BSP_IntHandlerGPIOE            
+0000402f  BSP_IntHandlerGPIOF            
+00004035  BSP_IntHandlerGPIOG            
+0000403b  BSP_IntHandlerHIBERNATE        
+00004041  BSP_IntHandlerI2C0             
+00004047  BSP_IntHandlerSSI0             
+0000404d  BSP_IntHandlerSYSCTL           
+00004053  BSP_IntHandlerTIMER0A          
+00004059  BSP_IntHandlerTIMER0B          
+0000405f  BSP_IntHandlerTIMER1A          
+00004065  BSP_IntHandlerTIMER1B          
+0000406b  BSP_IntHandlerTIMER2A          
+00004071  BSP_IntHandlerTIMER2B          
+00004077  BSP_IntHandlerTIMER3A          
+0000407d  BSP_IntHandlerTIMER3B          
+00004083  BSP_IntHandlerUART0            
+00004089  BSP_IntHandlerUART1            
+0000408f  BSP_IntHandlerWATCHDOG         
+00003c11  BSP_IntInit                    
+000036d5  BSP_IntVectSet                 
+00003d61  BSP_LED_Off                    
+00003d75  BSP_LED_On                     
+000037ad  BSP_LED_Toggle                 
+0000322d  C$$EXIT                        
+00003799  CPU_CntLeadZeros               
+00003e5b  CPU_Init                       
+00003783  CPU_IntDis                     
+200021e4  CPU_IntDisMeasCtr              
+00003b51  CPU_IntDisMeasMaxCurGet        
+00003a71  CPU_IntDisMeasMaxCurReset      
+200020ec  CPU_IntDisMeasMaxCur_cnts      
+00003b6d  CPU_IntDisMeasMaxGet           
+200020f0  CPU_IntDisMeasMax_cnts         
+200020f4  CPU_IntDisMeasOvrhd_cnts       
+00003675  CPU_IntDisMeasStart            
+200020f8  CPU_IntDisMeasStart_cnts       
+0000303d  CPU_IntDisMeasStop             
+200020fc  CPU_IntDisMeasStop_cnts        
+200021e6  CPU_IntDisNestCtr              
+00003787  CPU_IntEn                      
+00001379  CPU_IntSrcEn                   
+200020ac  CPU_Name                       
+000038e9  CPU_NameClr                    
+0000379f  CPU_RevBits                    
+00003793  CPU_SR_Restore                 
+0000378b  CPU_SR_Save                    
+00003f49  CPU_TS_TmrFreqSet              
+20002100  CPU_TS_TmrFreq_Hz              
+00003d9d  CPU_TS_TmrInit                 
+00003f55  CPU_TS_TmrRd                   
+000037a9  CPU_WaitForExcept              
+000037a5  CPU_WaitForInt                 
+00003759  GPIODirModeSet                 
+000015e3  GPIOPadConfigSet               
+00004095  GPIOPinRead                    
+00003e01  GPIOPinTypeGPIOOutput          
+00003e13  GPIOPinTypeSSI                 
+00003e25  GPIOPinTypeUART                
+0000409b  GPIOPinWrite                   
+00003fd9  Mem_Clr                        
+00002d9f  Mem_Copy                       
+00003085  Mem_Set                        
+00004340  OSCfg_DataSizeRAM              
+20000a40  OSCfg_ISRStk                   
+000042cc  OSCfg_ISRStkBasePtr            
+000042d0  OSCfg_ISRStkSize               
+000042d4  OSCfg_ISRStkSizeRAM            
+20000c40  OSCfg_IdleTaskStk              
+000042a0  OSCfg_IdleTaskStkBasePtr       
+000042a4  OSCfg_IdleTaskStkLimit         
+000042a8  OSCfg_IdleTaskStkSize          
+000042ac  OSCfg_IdleTaskStkSizeRAM       
+00003643  OSCfg_Init                     
+000042b0  OSCfg_IntQBasePtr              
+000042b4  OSCfg_IntQSize                 
+000042b8  OSCfg_IntQSizeRAM              
+000042bc  OSCfg_IntQTaskStkBasePtr       
+000042c0  OSCfg_IntQTaskStkLimit         
+000042c4  OSCfg_IntQTaskStkSize          
+000042c8  OSCfg_IntQTaskStkSizeRAM       
+20000000  OSCfg_MsgPool                  
+000042e0  OSCfg_MsgPoolBasePtr           
+000042d8  OSCfg_MsgPoolSize              
+000042dc  OSCfg_MsgPoolSizeRAM           
+000042e4  OSCfg_StatTaskPrio             
+000042e8  OSCfg_StatTaskRate_Hz          
+20000e40  OSCfg_StatTaskStk              
+000042ec  OSCfg_StatTaskStkBasePtr       
+000042f0  OSCfg_StatTaskStkLimit         
+000042f4  OSCfg_StatTaskStkSize          
+000042f8  OSCfg_StatTaskStkSizeRAM       
+000042fc  OSCfg_StkSizeMin               
+00004300  OSCfg_TickRate_Hz              
+00004304  OSCfg_TickTaskPrio             
+20001040  OSCfg_TickTaskStk              
+00004308  OSCfg_TickTaskStkBasePtr       
+0000430c  OSCfg_TickTaskStkLimit         
+00004310  OSCfg_TickTaskStkSize          
+00004314  OSCfg_TickTaskStkSizeRAM       
+20001f54  OSCfg_TickWheel                
+00004318  OSCfg_TickWheelSize            
+0000431c  OSCfg_TickWheelSizeRAM         
+00004320  OSCfg_TmrTaskPrio              
+00004324  OSCfg_TmrTaskRate_Hz           
+20001240  OSCfg_TmrTaskStk               
+00004328  OSCfg_TmrTaskStkBasePtr        
+0000432c  OSCfg_TmrTaskStkLimit          
+00004330  OSCfg_TmrTaskStkSize           
+00004334  OSCfg_TmrTaskStkSizeRAM        
+20001fbc  OSCfg_TmrWheel                 
+00004338  OSCfg_TmrWheelSize             
+0000433c  OSCfg_TmrWheelSizeRAM          
+20002104  OSFlagDbgListPtr               
+200021e8  OSFlagQty                      
+20002108  OSIdleTaskCtr                  
+00003e7d  OSIdleTaskHook                 
+200019c8  OSIdleTaskTCB                  
+000005b5  OSInit                         
+00003a91  OSInitHook                     
+2000210c  OSIntDisTimeMax                
+00003ab1  OSIntEnter                     
+00002289  OSIntExit                      
+200021f4  OSIntNestingCtr                
+20002110  OSMemDbgListPtr                
+200021ea  OSMemQty                       
+200020dc  OSMsgPool                      
+20002114  OSMutexDbgListPtr              
+200021ec  OSMutexQty                     
+200021f5  OSPrioCur                      
+200021f6  OSPrioHighRdy                  
+20002118  OSPrioTbl                      
+2000211c  OSQDbgListPtr                  
+200021ee  OSQQty                         
+20002024  OSRdyList                      
+200021f7  OSRunning                      
+00002795  OSSched                        
+00002c31  OSSchedLock                    
+200021f8  OSSchedLockNestingCtr          
+20002120  OSSchedLockTimeBegin           
+20002124  OSSchedLockTimeMax             
+20002128  OSSchedLockTimeMaxCur          
+2000212c  OSSchedRoundRobinDfltTimeQuanta
+200021f9  OSSchedRoundRobinEn            
+00002809  OSSchedUnlock                  
+000028ed  OSSemCreate                    
+20002130  OSSemDbgListPtr                
+000006fd  OSSemPend                      
+00003425  OSSemPost                      
+200021f0  OSSemQty                       
+00002df9  OSStart                        
+00001c21  OSStartHighRdy                 
+00001755  OSStatReset                    
+200021fa  OSStatResetFlag                
+200021fb  OSStatTaskCPUUsage             
+00001f11  OSStatTaskCPUUsageInit         
+20002134  OSStatTaskCtr                  
+20002138  OSStatTaskCtrMax               
+2000213c  OSStatTaskCtrRun               
+00003e8d  OSStatTaskHook                 
+200021fc  OSStatTaskRdy                  
+20001a8c  OSStatTaskTCB                  
+20002140  OSStatTaskTimeMax              
+20002144  OSTCBCurPtr                    
+20002148  OSTCBHighRdyPtr                
+0000011d  OSTaskCreate                   
+00003e9d  OSTaskCreateHook               
+2000214c  OSTaskCtxSwCtr                 
+20002150  OSTaskDbgListPtr               
+000010d1  OSTaskDel                      
+00003ead  OSTaskDelHook                  
+200021f2  OSTaskQty                      
+00003ebd  OSTaskReturnHook               
+0000083d  OSTaskSemPend                  
+00003bc1  OSTaskSemPost                  
+00001dd9  OSTaskStkChk                   
+000024a9  OSTaskStkInit                  
+0000287d  OSTaskSwHook                   
+20002154  OSTickCtr                      
+20001b50  OSTickTaskTCB                  
+20002158  OSTickTaskTimeMax              
+00001c99  OSTimeDly                      
+00000bd9  OSTimeDlyHMSM                  
+00002e51  OSTimeTick                     
+00003ecd  OSTimeTickHook                 
+2000215c  OSTmrDbgListPtr                
+20001c14  OSTmrTaskTCB                   
+20002160  OSTmrTaskTimeMax               
+20002164  OSTmrTickCtr                   
+20002168  OSTmrUpdateCnt                 
+2000216c  OSTmrUpdateCtr                 
+20002170  OS_AppIdleTaskHookPtr          
+20002174  OS_AppStatTaskHookPtr          
+20002178  OS_AppTaskCreateHookPtr        
+2000217c  OS_AppTaskDelHookPtr           
+20002180  OS_AppTaskReturnHookPtr        
+20002184  OS_AppTaskSwHookPtr            
+20002188  OS_AppTimeTickHookPtr          
+2000218c  OS_CPU_ExceptStkBase           
+00001c49  OS_CPU_PendSVHandler           
+00003701  OS_CPU_SysTickHandler          
+000037d5  OS_CPU_SysTickInit             
+00003bdb  OS_Dbg_Init                    
+00003c29  OS_FlagInit                    
+0000345d  OS_IdleTask                    
+00002959  OS_IdleTaskInit                
+00003c41  OS_MemInit                     
+000036a5  OS_MsgPoolCreate               
+000032b5  OS_MsgPoolInit                 
+00003495  OS_MsgQFreeAll                 
+00003f2b  OS_MsgQInit                    
+00003c59  OS_MutexInit                   
+000030cd  OS_Pend                        
+000037fd  OS_PendDataInit                
+0000315d  OS_PendDbgNameAdd              
+00003bdd  OS_PendDbgNameRemove           
+00003f9d  OS_PendListInit                
+00002d45  OS_PendListInsertPrio          
+0000390d  OS_PendListRemove              
+00003335  OS_PendListRemove1             
+00001fa9  OS_Post                        
+00003931  OS_Post1                       
+00003825  OS_PrioGetHighest              
+00003db1  OS_PrioInit                    
+00003955  OS_PrioInsert                  
+00003979  OS_PrioRemove                  
+00003c71  OS_QInit                       
+0000399d  OS_RdyListInit                 
+0000372d  OS_RdyListInsert               
+000034cd  OS_RdyListInsertHead           
+00003505  OS_RdyListInsertTail           
+00003611  OS_RdyListMoveHeadToTail       
+00002b09  OS_RdyListRemove               
+00003b89  OS_SchedLockTimeMeasStart      
+0000353d  OS_SchedLockTimeMeasStop       
+000029c5  OS_SchedRoundRobin             
+000039c1  OS_SemDbgListAdd               
+00003c89  OS_SemInit                     
+00002167  OS_SemPost                     
+000002b5  OS_StatTask                    
+0000169d  OS_StatTaskInit                
+0000384d  OS_TaskBlock                   
+000039e5  OS_TaskDbgListAdd              
+000031a5  OS_TaskDbgListRemove           
+00003a09  OS_TaskInit                    
+00001519  OS_TaskInitTCB                 
+00003ca1  OS_TaskRdy                     
+00003cb9  OS_TaskReturn                  
+000018b5  OS_TaskSemPost                 
+00003a2d  OS_TickListInit                
+0000129d  OS_TickListInsert              
+00003575  OS_TickListRemove              
+00003ad1  OS_TickListResetPeak           
+0000097d  OS_TickListUpdate              
+00003875  OS_TickTask                    
+00002311  OS_TickTaskInit                
+00000dfd  OS_TmrInit                     
+00001d39  OS_TmrLink                     
+00003af1  OS_TmrResetPeak                
+00001aad  OS_TmrTask                     
+00002fa1  OS_TmrUnlink                   
+20002194  ProbeCom_ErrPktCtr             
+0000195d  ProbeCom_Init                  
+00001449  ProbeCom_ParseRxPkt            
+20002198  ProbeCom_RxPktCtr              
+2000219c  ProbeCom_RxSymByteCtr          
+200021a0  ProbeCom_RxSymCtr              
+200021a4  ProbeCom_StrRxCtr              
+200021a8  ProbeCom_StrRxOvfErrCtr        
+200021ac  ProbeCom_StrTxCtr              
+200021b0  ProbeCom_StrTxOvfErrCtr        
+200021b4  ProbeCom_TxPktCtr              
+200021b8  ProbeCom_TxSymByteCtr          
+200021bc  ProbeCom_TxSymCtr              
+00002efd  ProbeRS232_Init                
+00002041  ProbeRS232_InitTarget          
+0000252d  ProbeRS232_OS_Init             
+00003d01  ProbeRS232_OS_Pend             
+00003dc5  ProbeRS232_OS_Post             
+200021c4  ProbeRS232_RxCtr               
+00001805  ProbeRS232_RxHandler           
+00003eed  ProbeRS232_RxIntEn             
+000031e9  ProbeRS232_RxTxISRHandler      
+00003ba5  ProbeRS232_Task                
+00003f79  ProbeRS232_Tx1                 
+200021d8  ProbeRS232_TxCtr               
+00000fe5  ProbeRS232_TxHandler           
+00003efd  ProbeRS232_TxIntDis            
+00003f0d  ProbeRS232_TxIntEn             
+00003115  RIT128x96x4Clear               
+00002ce9  RIT128x96x4Enable              
+00002421  RIT128x96x4Init                
+000011b9  RIT128x96x4StringDraw          
+000040a1  ResetISR                       
+UNDEFED   SHT$$INIT_ARRAY$$Base          
+UNDEFED   SHT$$INIT_ARRAY$$Limit         
+00003271  SSIConfigSetExpClk             
+00003f85  SSIDataGet                     
+00003e49  SSIDataGetNonBlocking          
+00003fbb  SSIDataPut                     
+00003fc5  SSIDisable                     
+00003fcf  SSIEnable                      
+00000435  SysCtlClockGet                 
+00000aad  SysCtlClockSet                 
+00003dd9  SysCtlDelay                    
+00003b31  SysCtlPeripheralEnable         
+000032f5  SysCtlPeripheralReset          
+20002304  __STACK_END                    
+00000100  __STACK_SIZE                   
+20002604  __STACK_TOP                    
+00004468  __TI_CINIT_Base                
+00004478  __TI_CINIT_Limit               
+00004454  __TI_Handler_Table_Base        
+00004460  __TI_Handler_Table_Limit       
+00002a31  __TI_auto_init                 
+2000230c  __TI_cleanup_ptr               
+00003f39  __TI_decompress_none           
+000040a7  __TI_decompress_rle24          
+20002310  __TI_dtors_ptr                 
+00000000  __TI_static_base__             
+00003f91  __TI_zero_init                 
+00002629  __aeabi_memclr                 
+00002629  __aeabi_memclr4                
+00002629  __aeabi_memclr8                
+00001e75  __aeabi_memcpy                 
+00001e75  __aeabi_memcpy4                
+00001e75  __aeabi_memcpy8                
+0000262b  __aeabi_memset                 
+0000262b  __aeabi_memset4                
+0000262b  __aeabi_memset8                
+ffffffff  __binit__                      
+ffffffff  __c_args__                     
+20002204  __stack                        
+00003d31  _args_main                     
+000033e9  _c_int00                       
+20002304  _lock                          
+00003dfb  _nop                           
+00003df3  _register_lock                 
+00003ded  _register_unlock               
+000040bd  _system_pre_init               
+20002308  _unlock                        
+00003231  abort                          
+ffffffff  binit                          
+00002ff1  copy_in                        
+00003239  exit                           
+00000000  g_pfnVectors                   
+200021e0  g_ulInlineCCSWorkaround        
+00002b6d  main                           
+20002314  main_func_sp                   
+00001e75  memcpy                         
+00002631  memset                         
+
+
+GLOBAL SYMBOLS: SORTED BY Symbol Address 
+
+address   name                           
+-------   ----                           
+00000000  __TI_static_base__             
+00000000  g_pfnVectors                   
+00000100  __STACK_SIZE                   
+0000011d  OSTaskCreate                   
+000002b5  OS_StatTask                    
+00000435  SysCtlClockGet                 
+000005b5  OSInit                         
+000006fd  OSSemPend                      
+0000083d  OSTaskSemPend                  
+0000097d  OS_TickListUpdate              
+00000aad  SysCtlClockSet                 
+00000bd9  OSTimeDlyHMSM                  
+00000dfd  OS_TmrInit                     
+00000fe5  ProbeRS232_TxHandler           
+000010d1  OSTaskDel                      
+000011b9  RIT128x96x4StringDraw          
+0000129d  OS_TickListInsert              
+00001379  CPU_IntSrcEn                   
+00001449  ProbeCom_ParseRxPkt            
+00001519  OS_TaskInitTCB                 
+000015e3  GPIOPadConfigSet               
+0000169d  OS_StatTaskInit                
+00001755  OSStatReset                    
+00001805  ProbeRS232_RxHandler           
+000018b5  OS_TaskSemPost                 
+0000195d  ProbeCom_Init                  
+00001aad  OS_TmrTask                     
+00001c21  OSStartHighRdy                 
+00001c49  OS_CPU_PendSVHandler           
+00001c99  OSTimeDly                      
+00001d39  OS_TmrLink                     
+00001dd9  OSTaskStkChk                   
+00001e75  __aeabi_memcpy                 
+00001e75  __aeabi_memcpy4                
+00001e75  __aeabi_memcpy8                
+00001e75  memcpy                         
+00001f11  OSStatTaskCPUUsageInit         
+00001fa9  OS_Post                        
+00002041  ProbeRS232_InitTarget          
+00002167  OS_SemPost                     
+00002289  OSIntExit                      
+00002311  OS_TickTaskInit                
+00002421  RIT128x96x4Init                
+000024a9  OSTaskStkInit                  
+0000252d  ProbeRS232_OS_Init             
+00002629  __aeabi_memclr                 
+00002629  __aeabi_memclr4                
+00002629  __aeabi_memclr8                
+0000262b  __aeabi_memset                 
+0000262b  __aeabi_memset4                
+0000262b  __aeabi_memset8                
+00002631  memset                         
+00002795  OSSched                        
+00002809  OSSchedUnlock                  
+0000287d  OSTaskSwHook                   
+000028ed  OSSemCreate                    
+00002959  OS_IdleTaskInit                
+000029c5  OS_SchedRoundRobin             
+00002a31  __TI_auto_init                 
+00002b09  OS_RdyListRemove               
+00002b6d  main                           
+00002c31  OSSchedLock                    
+00002ce9  RIT128x96x4Enable              
+00002d45  OS_PendListInsertPrio          
+00002d9f  Mem_Copy                       
+00002df9  OSStart                        
+00002e51  OSTimeTick                     
+00002efd  ProbeRS232_Init                
+00002fa1  OS_TmrUnlink                   
+00002ff1  copy_in                        
+0000303d  CPU_IntDisMeasStop             
+00003085  Mem_Set                        
+000030cd  OS_Pend                        
+00003115  RIT128x96x4Clear               
+0000315d  OS_PendDbgNameAdd              
+000031a5  OS_TaskDbgListRemove           
+000031e9  ProbeRS232_RxTxISRHandler      
+0000322d  C$$EXIT                        
+00003231  abort                          
+00003239  exit                           
+00003271  SSIConfigSetExpClk             
+000032b5  OS_MsgPoolInit                 
+000032f5  SysCtlPeripheralReset          
+00003335  OS_PendListRemove1             
+000033e9  _c_int00                       
+00003425  OSSemPost                      
+0000345d  OS_IdleTask                    
+00003495  OS_MsgQFreeAll                 
+000034cd  OS_RdyListInsertHead           
+00003505  OS_RdyListInsertTail           
+0000353d  OS_SchedLockTimeMeasStop       
+00003575  OS_TickListRemove              
+00003611  OS_RdyListMoveHeadToTail       
+00003643  OSCfg_Init                     
+00003675  CPU_IntDisMeasStart            
+000036a5  OS_MsgPoolCreate               
+000036d5  BSP_IntVectSet                 
+00003701  OS_CPU_SysTickHandler          
+0000372d  OS_RdyListInsert               
+00003759  GPIODirModeSet                 
+00003783  BSP_IntDisAll                  
+00003783  CPU_IntDis                     
+00003787  CPU_IntEn                      
+0000378b  CPU_SR_Save                    
+00003793  CPU_SR_Restore                 
+00003799  CPU_CntLeadZeros               
+0000379f  CPU_RevBits                    
+000037a5  CPU_WaitForInt                 
+000037a9  CPU_WaitForExcept              
+000037ad  BSP_LED_Toggle                 
+000037d5  OS_CPU_SysTickInit             
+000037fd  OS_PendDataInit                
+00003825  OS_PrioGetHighest              
+0000384d  OS_TaskBlock                   
+00003875  OS_TickTask                    
+000038c5  BSP_Init                       
+000038e9  CPU_NameClr                    
+0000390d  OS_PendListRemove              
+00003931  OS_Post1                       
+00003955  OS_PrioInsert                  
+00003979  OS_PrioRemove                  
+0000399d  OS_RdyListInit                 
+000039c1  OS_SemDbgListAdd               
+000039e5  OS_TaskDbgListAdd              
+00003a09  OS_TaskInit                    
+00003a2d  OS_TickListInit                
+00003a71  CPU_IntDisMeasMaxCurReset      
+00003a91  OSInitHook                     
+00003ab1  OSIntEnter                     
+00003ad1  OS_TickListResetPeak           
+00003af1  OS_TmrResetPeak                
+00003b31  SysCtlPeripheralEnable         
+00003b51  CPU_IntDisMeasMaxCurGet        
+00003b6d  CPU_IntDisMeasMaxGet           
+00003b89  OS_SchedLockTimeMeasStart      
+00003ba5  ProbeRS232_Task                
+00003bc1  OSTaskSemPost                  
+00003bdb  OS_Dbg_Init                    
+00003bdd  OS_PendDbgNameRemove           
+00003bf7  App_ProbeInit                  
+00003c11  BSP_IntInit                    
+00003c29  OS_FlagInit                    
+00003c41  OS_MemInit                     
+00003c59  OS_MutexInit                   
+00003c71  OS_QInit                       
+00003c89  OS_SemInit                     
+00003ca1  OS_TaskRdy                     
+00003cb9  OS_TaskReturn                  
+00003d01  ProbeRS232_OS_Pend             
+00003d31  _args_main                     
+00003d61  BSP_LED_Off                    
+00003d75  BSP_LED_On                     
+00003d9d  CPU_TS_TmrInit                 
+00003db1  OS_PrioInit                    
+00003dc5  ProbeRS232_OS_Post             
+00003dd9  SysCtlDelay                    
+00003ded  _register_unlock               
+00003df3  _register_lock                 
+00003dfb  _nop                           
+00003e01  GPIOPinTypeGPIOOutput          
+00003e13  GPIOPinTypeSSI                 
+00003e25  GPIOPinTypeUART                
+00003e49  SSIDataGetNonBlocking          
+00003e5b  CPU_Init                       
+00003e7d  OSIdleTaskHook                 
+00003e8d  OSStatTaskHook                 
+00003e9d  OSTaskCreateHook               
+00003ead  OSTaskDelHook                  
+00003ebd  OSTaskReturnHook               
+00003ecd  OSTimeTickHook                 
+00003eed  ProbeRS232_RxIntEn             
+00003efd  ProbeRS232_TxIntDis            
+00003f0d  ProbeRS232_TxIntEn             
+00003f1d  BSP_IntEn                      
+00003f2b  OS_MsgQInit                    
+00003f39  __TI_decompress_none           
+00003f49  CPU_TS_TmrFreqSet              
+00003f55  CPU_TS_TmrRd                   
+00003f79  ProbeRS232_Tx1                 
+00003f85  SSIDataGet                     
+00003f91  __TI_zero_init                 
+00003f9d  OS_PendListInit                
+00003fbb  SSIDataPut                     
+00003fc5  SSIDisable                     
+00003fcf  SSIEnable                      
+00003fd9  Mem_Clr                        
+00003fe1  BSP_IntHandlerADC0             
+00003fe7  BSP_IntHandlerADC1             
+00003fed  BSP_IntHandlerADC2             
+00003ff3  BSP_IntHandlerADC3             
+00003ff9  BSP_IntHandlerCAN0             
+00003fff  BSP_IntHandlerCOMP0            
+00004005  BSP_IntHandlerETH              
+0000400b  BSP_IntHandlerFLASH            
+00004011  BSP_IntHandlerGPIOA            
+00004017  BSP_IntHandlerGPIOB            
+0000401d  BSP_IntHandlerGPIOC            
+00004023  BSP_IntHandlerGPIOD            
+00004029  BSP_IntHandlerGPIOE            
+0000402f  BSP_IntHandlerGPIOF            
+00004035  BSP_IntHandlerGPIOG            
+0000403b  BSP_IntHandlerHIBERNATE        
+00004041  BSP_IntHandlerI2C0             
+00004047  BSP_IntHandlerSSI0             
+0000404d  BSP_IntHandlerSYSCTL           
+00004053  BSP_IntHandlerTIMER0A          
+00004059  BSP_IntHandlerTIMER0B          
+0000405f  BSP_IntHandlerTIMER1A          
+00004065  BSP_IntHandlerTIMER1B          
+0000406b  BSP_IntHandlerTIMER2A          
+00004071  BSP_IntHandlerTIMER2B          
+00004077  BSP_IntHandlerTIMER3A          
+0000407d  BSP_IntHandlerTIMER3B          
+00004083  BSP_IntHandlerUART0            
+00004089  BSP_IntHandlerUART1            
+0000408f  BSP_IntHandlerWATCHDOG         
+00004095  GPIOPinRead                    
+0000409b  GPIOPinWrite                   
+000040a1  ResetISR                       
+000040a7  __TI_decompress_rle24          
+000040ad  BSP_CPU_ClkFreq                
+000040bd  _system_pre_init               
+000042a0  OSCfg_IdleTaskStkBasePtr       
+000042a4  OSCfg_IdleTaskStkLimit         
+000042a8  OSCfg_IdleTaskStkSize          
+000042ac  OSCfg_IdleTaskStkSizeRAM       
+000042b0  OSCfg_IntQBasePtr              
+000042b4  OSCfg_IntQSize                 
+000042b8  OSCfg_IntQSizeRAM              
+000042bc  OSCfg_IntQTaskStkBasePtr       
+000042c0  OSCfg_IntQTaskStkLimit         
+000042c4  OSCfg_IntQTaskStkSize          
+000042c8  OSCfg_IntQTaskStkSizeRAM       
+000042cc  OSCfg_ISRStkBasePtr            
+000042d0  OSCfg_ISRStkSize               
+000042d4  OSCfg_ISRStkSizeRAM            
+000042d8  OSCfg_MsgPoolSize              
+000042dc  OSCfg_MsgPoolSizeRAM           
+000042e0  OSCfg_MsgPoolBasePtr           
+000042e4  OSCfg_StatTaskPrio             
+000042e8  OSCfg_StatTaskRate_Hz          
+000042ec  OSCfg_StatTaskStkBasePtr       
+000042f0  OSCfg_StatTaskStkLimit         
+000042f4  OSCfg_StatTaskStkSize          
+000042f8  OSCfg_StatTaskStkSizeRAM       
+000042fc  OSCfg_StkSizeMin               
+00004300  OSCfg_TickRate_Hz              
+00004304  OSCfg_TickTaskPrio             
+00004308  OSCfg_TickTaskStkBasePtr       
+0000430c  OSCfg_TickTaskStkLimit         
+00004310  OSCfg_TickTaskStkSize          
+00004314  OSCfg_TickTaskStkSizeRAM       
+00004318  OSCfg_TickWheelSize            
+0000431c  OSCfg_TickWheelSizeRAM         
+00004320  OSCfg_TmrTaskPrio              
+00004324  OSCfg_TmrTaskRate_Hz           
+00004328  OSCfg_TmrTaskStkBasePtr        
+0000432c  OSCfg_TmrTaskStkLimit          
+00004330  OSCfg_TmrTaskStkSize           
+00004334  OSCfg_TmrTaskStkSizeRAM        
+00004338  OSCfg_TmrWheelSize             
+0000433c  OSCfg_TmrWheelSizeRAM          
+00004340  OSCfg_DataSizeRAM              
+00004454  __TI_Handler_Table_Base        
+00004460  __TI_Handler_Table_Limit       
+00004468  __TI_CINIT_Base                
+00004478  __TI_CINIT_Limit               
+20000000  OSCfg_MsgPool                  
+20000a40  OSCfg_ISRStk                   
+20000c40  OSCfg_IdleTaskStk              
+20000e40  OSCfg_StatTaskStk              
+20001040  OSCfg_TickTaskStk              
+20001240  OSCfg_TmrTaskStk               
+200019c8  OSIdleTaskTCB                  
+20001a8c  OSStatTaskTCB                  
+20001b50  OSTickTaskTCB                  
+20001c14  OSTmrTaskTCB                   
+20001f54  OSCfg_TickWheel                
+20001fbc  OSCfg_TmrWheel                 
+20002024  OSRdyList                      
+200020ac  CPU_Name                       
+200020dc  OSMsgPool                      
+200020ec  CPU_IntDisMeasMaxCur_cnts      
+200020f0  CPU_IntDisMeasMax_cnts         
+200020f4  CPU_IntDisMeasOvrhd_cnts       
+200020f8  CPU_IntDisMeasStart_cnts       
+200020fc  CPU_IntDisMeasStop_cnts        
+20002100  CPU_TS_TmrFreq_Hz              
+20002104  OSFlagDbgListPtr               
+20002108  OSIdleTaskCtr                  
+2000210c  OSIntDisTimeMax                
+20002110  OSMemDbgListPtr                
+20002114  OSMutexDbgListPtr              
+20002118  OSPrioTbl                      
+2000211c  OSQDbgListPtr                  
+20002120  OSSchedLockTimeBegin           
+20002124  OSSchedLockTimeMax             
+20002128  OSSchedLockTimeMaxCur          
+2000212c  OSSchedRoundRobinDfltTimeQuanta
+20002130  OSSemDbgListPtr                
+20002134  OSStatTaskCtr                  
+20002138  OSStatTaskCtrMax               
+2000213c  OSStatTaskCtrRun               
+20002140  OSStatTaskTimeMax              
+20002144  OSTCBCurPtr                    
+20002148  OSTCBHighRdyPtr                
+2000214c  OSTaskCtxSwCtr                 
+20002150  OSTaskDbgListPtr               
+20002154  OSTickCtr                      
+20002158  OSTickTaskTimeMax              
+2000215c  OSTmrDbgListPtr                
+20002160  OSTmrTaskTimeMax               
+20002164  OSTmrTickCtr                   
+20002168  OSTmrUpdateCnt                 
+2000216c  OSTmrUpdateCtr                 
+20002170  OS_AppIdleTaskHookPtr          
+20002174  OS_AppStatTaskHookPtr          
+20002178  OS_AppTaskCreateHookPtr        
+2000217c  OS_AppTaskDelHookPtr           
+20002180  OS_AppTaskReturnHookPtr        
+20002184  OS_AppTaskSwHookPtr            
+20002188  OS_AppTimeTickHookPtr          
+2000218c  OS_CPU_ExceptStkBase           
+20002194  ProbeCom_ErrPktCtr             
+20002198  ProbeCom_RxPktCtr              
+2000219c  ProbeCom_RxSymByteCtr          
+200021a0  ProbeCom_RxSymCtr              
+200021a4  ProbeCom_StrRxCtr              
+200021a8  ProbeCom_StrRxOvfErrCtr        
+200021ac  ProbeCom_StrTxCtr              
+200021b0  ProbeCom_StrTxOvfErrCtr        
+200021b4  ProbeCom_TxPktCtr              
+200021b8  ProbeCom_TxSymByteCtr          
+200021bc  ProbeCom_TxSymCtr              
+200021c4  ProbeRS232_RxCtr               
+200021d8  ProbeRS232_TxCtr               
+200021e0  g_ulInlineCCSWorkaround        
+200021e4  CPU_IntDisMeasCtr              
+200021e6  CPU_IntDisNestCtr              
+200021e8  OSFlagQty                      
+200021ea  OSMemQty                       
+200021ec  OSMutexQty                     
+200021ee  OSQQty                         
+200021f0  OSSemQty                       
+200021f2  OSTaskQty                      
+200021f4  OSIntNestingCtr                
+200021f5  OSPrioCur                      
+200021f6  OSPrioHighRdy                  
+200021f7  OSRunning                      
+200021f8  OSSchedLockNestingCtr          
+200021f9  OSSchedRoundRobinEn            
+200021fa  OSStatResetFlag                
+200021fb  OSStatTaskCPUUsage             
+200021fc  OSStatTaskRdy                  
+20002204  __stack                        
+20002304  __STACK_END                    
+20002304  _lock                          
+20002308  _unlock                        
+2000230c  __TI_cleanup_ptr               
+20002310  __TI_dtors_ptr                 
+20002314  main_func_sp                   
+20002604  __STACK_TOP                    
+ffffffff  __binit__                      
+ffffffff  __c_args__                     
+ffffffff  binit                          
+UNDEFED   SHT$$INIT_ARRAY$$Base          
+UNDEFED   SHT$$INIT_ARRAY$$Limit         
+
+[367 symbols]
