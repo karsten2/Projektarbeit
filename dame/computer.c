@@ -4,308 +4,244 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct stoneArray{
-	int init;
-	struct stone stone;
-	struct stoneArray *next;
+	// TODO Decide what move computer will do.
+	// TODO Find the path in the tree, the enemy player chose.
+	// TODO Do the ai move.
+	// TODO Include uCos libs
+	// TODO Create Tasks
+
+enum strategy {
+	min,
+	max
 };
 
-struct stoneArray newStoneArray(void) {
-	return (struct stoneArray) { .stone = NULL, .next = NULL, .init = 0};
-}
+typedef struct {
+	int col;
+	int row;
+} aiField;
 
-void stoneArrayAppend(struct stoneArray *ptr, struct stone new) {
-	struct stoneArray temp;
-	temp.init = 1;
-	temp.stone = new;
-	temp.next = NULL;
+typedef struct {
+	int king;
+	int alive;
+	aiField field;
+	int position;
+	struct stone *refStone;
+} aiStone;
 
-	ptr->next = &temp;
-}
+typedef struct {
+	int Position;
+	enum strategy strategy;
+} aiPlayer;
 
 /**
  * Struct contains the current state of the board.
  * For each move of the MiniMax algorithm a new board has to be created.
  */
-typedef struct {
-	struct stoneArray stonesMax;
-	struct stoneArray stonesMin;
-	struct stoneArray moveList;
+typedef struct board {
+	aiStone topStones[12];
+	aiStone botStones[12];
+	aiPlayer player;
+	int isLeaf;
+	struct board *parent;
+	struct board *childs[100];
+	int childsize;
+	int nodeValue;
 } board;
 
-struct boardState{
-	struct boardState *previous;
-	struct boardState *next;
-	struct boardState *up;
-	struct boardState *down;
-	board element;
-	int player;
-	int value;
-};
-
-struct boardState rootNode;
-
 /**
- * Initializes a new boardstate.
- */
-struct boardState newBoardState(void) {
-	return (struct boardState) { .value = 0, .element = NULL, .down = NULL, .next = NULL,
-		.previous = NULL, .up = NULL, .player = 0 };
-}
-
-/**
- * Adds Next Element in the tree.
- */
-struct boardState * addNext(struct boardState *rootNode, board *nextElement) {
-	struct boardState next = newBoardState();
-	next.down = NULL;
-	next.element = *nextElement;
-	next.next = NULL;
-	next.previous = NULL;
-	next.up = rootNode->up;
-	next.value = 0;
-
-	if (rootNode->next == NULL) {
-		rootNode->next = &next;
-		next.previous = rootNode;
-	} else {
-		struct boardState *temp = rootNode->down;
-
-		while (temp->next != NULL) {
-			temp = temp->next;
-		}
-
-		next.previous = temp;
-		temp->next = &next;
-	}
-
-	return &next;
-}
-
-/**
- * Function adds a new node at the bottom of the given rootNode.
- * Calls addNext to add the node at the correct position.
- */
-struct boardState * addBottom(struct boardState *rootNode, board *bottomElement) {
-	struct boardState bottom = newBoardState();
-	bottom.down = NULL;
-	bottom.element = *bottomElement;
-	bottom.next = NULL;
-	bottom.previous = NULL;
-	bottom.up = rootNode;
-	bottom.value = 0;
-
-	if (rootNode->down == NULL)
-		rootNode->down = &bottom;
-	else
-		return addNext(rootNode->down, bottomElement);
-
-	return &bottom;
-}
-
-/**
- * Evaluate all values form the leafes to the root node.
- */
-int evaluateSearchTree(struct boardState *rootNode) {
-
-	struct boardState *tempNode = rootNode;
-
-	if (tempNode->down != NULL)
-		tempNode->value += evaluateSearchTree(tempNode->down);
-
-	if (tempNode->next != NULL)
-		tempNode->value += evaluateSearchTree(tempNode->next);
-
-	return tempNode->value;
-}
-
-/**
+ * Function to check if the game is over.
+ * If the game is over, the function returns 0, 1 for the player.
+ * If the game is not over, the function returns -1.
  *
+ * @param world Struct of board.
+ * @return 0, 1 Position of the winning player, else -1.
  */
-void mmMoveStone(struct stone *stone, struct field *field) {
-	field->_stone = stone;
+int gameOver(board *world) {
 
-	stone->_field = NULL;
-	stone->_field->_stone = NULL;
-}
-
-
-/**
- * Check if the move of the player is valid.
- * If the player moves over an enemy stone, this stone will be beaten.
- *
- * dst: The field, the player wants to move the stone.
- */
-int stoneCanMove(struct field *dst) {
-	if (dst != NULL && dst->_stone == NULL) {
-		return 1;
-	}
-	return 0;
-}
-
-/**
- * Function checks if a stone can beat another.
- */
-int stoneCanBeat(struct field *dst, struct field *stoneToBeat,
-		struct player *player) {
-
-	if (dst != NULL && stoneToBeat->_stone != NULL
-			&& !playerOwnsStone(player, stoneToBeat))
-		return 1;
-
-	return 0;
-}
-
-int movePossible(struct stone *stone) {
-	if (stone->king) {
-		if(stoneCanMove(stone->_field->topLeft)
-				|| stoneCanMove(stone->_field->topRight)
-				|| stoneCanMove(stone->_field->bottomLeft)
-				|| stoneCanMove(stone->_field->bottomRight)) {
-			return 1;
-		}
-	} else {
-		if (stone->_player->position) {
-			if (stoneCanMove(stone->_field->bottomLeft)
-				|| stoneCanMove(stone->_field->bottomRight))
-				return 1;
-		} else {
-			if (stoneCanMove(stone->_field->topLeft)
-					|| stoneCanMove(stone->_field->topRight))
-				return 1;
-		}
-	}
-
-	return 0;
-}
-
-/**
- * Find all Stones the player can move.
- */
-void findMovableStones(struct stoneArray *movableStones, struct stoneArray *stones) {
-
-	struct stoneArray *temp = stones;
-
-	while (temp != NULL) {
-		if (temp->stone.alive && movePossible(&temp->stone)) {
-			stoneArrayAppend(movableStones, temp->stone);
-		}
-		temp = temp->next;
-	}
-}
-
-int beatPossible(struct stone *stone, struct player *player) {
-
-	if (stone->king) {
-		if ((stoneCanBeat(stone->_field->topLeft->topLeft,
-				stone->_field->topLeft, player))
-				|| (stoneCanBeat(stone->_field->topRight->topRight,
-				stone->_field->topRight, player))
-				|| (stoneCanBeat(stone->_field->bottomLeft->bottomLeft,
-				stone->_field->bottomLeft, player))
-				|| stoneCanBeat(stone->_field->bottomRight->bottomRight,
-				stone->_field->bottomRight, player)) {
-			return 1;
-		}
-	} else {
-		if (stone->_player->position) {
-			if ((stoneCanBeat(stone->_field->bottomLeft->bottomLeft,
-					stone->_field->bottomLeft, player))
-					|| (stoneCanBeat(stone->_field->bottomRight->bottomRight,
-							stone->_field->bottomRight, player))) {
-				return 1;
-			}
-		} else {
-			if ((stoneCanBeat(stone->_field->topLeft->topLeft,
-					stone->_field->topLeft, player))
-					|| (stoneCanBeat(stone->_field->topRight->topRight,
-							stone->_field->topRight, player))) {
-				return 1;
-			}
-		}
-	}
-
-	return 0;
-}
-
-
-/**
- * Find the stones the player can beat.
- */
-void findBeatableStones(struct stoneArray *stones, struct stoneArray *possibleStones) {
-	struct stoneArray *temp = possibleStones;
-
-	while(temp != NULL) {
-		if (temp->stone.alive
-				&& beatPossible(&temp->stone, temp->stone._player)) {
-			stoneArrayAppend(stones, temp->stone);
-		}
-		temp = temp->next;
-	}
-}
-
-/**
- * Function returns a list with movable and beatable stones.
- */
-struct stoneArray getMoveList(struct stoneArray stonesMax, struct stoneArray stonesMin) {
-	struct stoneArray moveList = newStoneArray();
-
-	findMovableStones(&moveList, &stonesMax);
-	findBeatableStones(&moveList, &moveList);
-
-	return moveList;
-}
-
-/**
- * Returns a new board struct.
- *
- * stonesMax:		All stones of the Max player.
- * stonesMin:		All stones of the Min player.
- * moveList:		All stones the player can move or beat.
- * value:			Value of the move.
- */
-board newBoard(struct stoneArray stonesMax,
-		struct stoneArray stonesMin) {
-
-	struct stoneArray moveList = getMoveList(stonesMax, stonesMin);
-
-	return (board) { .moveList = moveList, .stonesMax = stonesMax, .stonesMin =
-			stonesMin};
-}
-
-
-
-struct player * getPlayerByPosition(int position) {
+	int allTopDead = 1;
+	int allBotDead = 1;
 	int i;
-	for (i = 0; i < sizeof(players) / sizeof(players[0]); i++) {
-		if (players[i].position == position)
-			return &players[i];
+
+	for (i = 0; i < 12; i++) {
+		if (world->topStones[i].alive)
+			allTopDead = 0;
 	}
 
-	return currentPlayer;
+	for (i = 0; i < 12; i++) {
+		if (world->botStones[i].alive)
+			allBotDead = 0;
+	}
+
+	if (allTopDead && !allBotDead)
+		return 0;
+	else if (!allTopDead && allBotDead)
+		return 1;
+	else
+		return -1;
 }
 
 /**
- * Function moves a stone and returns a new board with the new state.
+ * Function to get a stone at a specific position.
  *
- * board:		current game state.
- * stone:		stone to move.
- * field:		field the stone will be moved to.
+ * @param col Value between 1-8 for the column.
+ * @param row Value between 1-8 for the row.
+ * @param *world Pointer to the current board.
+ *
+ * @return Pointer to the found stone, else NULL.
  */
-board boardMove(board board, struct stone src, struct field dst) {
-	mmMoveStone(&src, &dst);
-	return newBoard(board.stonesMax, board.stonesMin);
+aiStone * getStoneAt(int col, int row, board *world) {
+	int i;
+
+	for (i = 0; i < 12; i++) {
+		if (world->topStones[i].field.col == col && world->topStones[i].field.row == row)
+			return &world->topStones[i];
+	}
+	for (i = 0; i < 12; i++) {
+		if (world->botStones[i].field.col == col && world->botStones[i].field.row == row)
+			return &world->botStones[i];
+	}
+
+	return NULL;
 }
 
 /**
- * Function removes a stone from the pitch.
+ *
  */
-void mmBeatStone(struct stone *_stone) {
-	if (_stone != NULL) {
-		_stone->alive = 0;
-		_stone->_field->_stone = NULL;
-		_stone->_field = NULL;
-	}
+int validateNewCoord(board *world, int col, int row) {
+	if (col > 0 && col <= 8
+			&& row > 0 && row <= 8) {
+		if (getStoneAt(col, row, world))
+			return 0;
+		else
+			return 1;
+	} else
+		return 0;
+}
+
+/**
+ * 1 if bottomLeft is free.
+ */
+int bottomLeft(board *world, aiStone *stone) {
+	int newCol = stone->field.col - 1;
+	int newRow = stone->field.row + 1;
+
+	return validateNewCoord(world, newCol, newRow);
+}
+
+aiField getBottomLeft(aiStone *stone) {
+
+	aiField retValue;
+
+	retValue.col = stone->field.col - 1;
+	retValue.row = stone->field.row + 1;
+
+	return retValue;
+}
+
+/**
+ * 1 if bottomRight is free.
+ */
+int bottomRight(board *world, aiStone *stone) {
+	int newCol = stone->field.col + 1;
+	int newRow = stone->field.row + 1;
+
+	return validateNewCoord(world, newCol, newRow);
+}
+
+aiField getBottomRight(aiStone *stone) {
+
+	aiField retValue;
+
+	retValue.col = stone->field.col + 1;
+	retValue.row = stone->field.row + 1;
+
+	return retValue;
+}
+
+/**
+ * 1 if topLeft is free.
+ */
+int topLeft(board *world, aiStone *stone) {
+	int newCol = stone->field.col - 1;
+	int newRow = stone->field.row - 1;
+
+	return validateNewCoord(world, newCol, newRow);
+}
+
+aiField getTopLeft(aiStone *stone) {
+
+	aiField retValue;
+
+	retValue.col = stone->field.col - 1;
+	retValue.row = stone->field.row - 1;
+
+	return retValue;
+}
+
+/**
+ * 1 if topRight is free.
+ */
+int topRight(board *world, aiStone *stone) {
+	int newCol = stone->field.col + 1;
+	int newRow = stone->field.row - 1;
+
+	return validateNewCoord(world, newCol, newRow);
+}
+
+aiField getTopRight(aiStone *stone) {
+
+	aiField retValue;
+
+	retValue.col = stone->field.col + 1;
+	retValue.row = stone->field.row - 1;
+
+	return retValue;
+}
+
+/**
+ * Checks if field lays within the board.
+ */
+int fieldValid (aiField field) {
+	if (field.col > 0 && field.col <= 8
+			&& field.row > 0 && field.row <= 8)
+		return 1;
+
+	return 0;
+}
+
+/**
+ * Checks if a stone can hit a victim.
+ */
+int stoneCanHitVictim(board *world, aiStone *victim,aiField dir) {
+
+	if (!getStoneAt(dir.col, dir.row, world))
+		return 1;
+
+	return 0;
+}
+
+/**
+ * Function checks if a given stone has an enemy stone at the given field.
+ */
+aiStone * getEnemyNeighbour(board *world, aiStone *stone,aiField dir) {
+
+	aiStone *victim = getStoneAt(dir.col, dir.row, world);
+	if (victim && victim->position != stone->position)
+		return victim;
+
+	return NULL;
+}
+
+void appendChild(board *world, board *child) {
+
+	// adds child to childarray, increases array counter.s
+	world->childs[world->childsize] = child;
+	world->childsize ++;
+
+	// node is no leaf anymore, after adding a child.
+	if (world->isLeaf)
+		world->isLeaf = 0;
+
 }
 
 /**
@@ -323,193 +259,492 @@ struct player * getPlayer(int position) {
 	return currentPlayer;
 }
 
-int getNextPlayer(int currentPosition) {
+/**
+ * Function to get the next player.
+ *
+ * @param currentPlayer The player of the current turn.
+ * @return The next player.
+ */
+aiPlayer getNextPlayer(aiPlayer currentPlayer) {
 
-	int i;
-	for (i = 0; i < sizeof(players) / sizeof(players[0]); i++) {
-		if (players[i].position != currentPosition)
-			return players[i].position;
+	int retPosition;
+	enum strategy retStrategy;
+
+	if (currentPlayer.Position)
+		retPosition = 0;
+	else
+		retPosition = 1;
+
+	if (currentPlayer.strategy == max)
+		retStrategy = min;
+	else
+		retStrategy = max;
+
+	return (aiPlayer) { .Position = retPosition, .strategy = retStrategy };
+}
+
+/**
+ * Copies a board.
+ *
+ * @param *src Pointer to source board.
+ * @param *dst Pointer to the destination board.
+ */
+void copyBoard(board *src, board *dst) {
+	memcpy(dst, src, sizeof(board));
+}
+
+/**
+ * Function to simulate a move for the ai.
+ *
+ * @param *world Pointer to the current World.
+ * @param *stoneToMove Pointer to the moving stone.
+ * @param newField The destination after the move.
+ *
+ * @return The new world as board.
+ */
+board doMove(board *world, aiStone *stoneToMove, aiField newField) {
+	board retValue;
+	aiStone *ptrStone = malloc(12 * sizeof(aiStone));
+
+	copyBoard(world, &retValue);
+	retValue.player = getNextPlayer(retValue.player);
+	retValue.nodeValue = -1;
+
+	if (stoneToMove->position)
+		ptrStone = retValue.topStones;
+	else
+		ptrStone = retValue.botStones;
+
+	while(ptrStone) {
+
+		if (ptrStone->field.col == stoneToMove->field.col &&
+				ptrStone->field.row == stoneToMove->field.row) {
+			ptrStone->field = newField;
+
+			// Transform the moved stone to a king.
+			if (ptrStone->position) {
+				if (ptrStone->field.row == 8)
+					ptrStone->king = 1;
+			} else {
+				if (ptrStone->field.row == 1)
+					ptrStone->king = 1;
+			}
+
+			break;
+		}
+
+		ptrStone ++;
+	}
+
+	return retValue;
+}
+
+/**
+ * Beat a stone with a given world.
+ *
+ * @param *world Pointer to the current world.
+ * @param *stone The hitting stone.
+ * @param *victim The beaten stone.
+ * @param newField The field the hitting stone will be after the hit.
+ *
+ * @return The new world without the victim.
+ */
+board hitStone(board *world, aiStone *stone, aiStone *victim, aiField newField) {
+
+	// remove Victim.
+	board retValue;
+	copyBoard(world, &retValue);
+	retValue.player = getNextPlayer(retValue.player);
+	retValue.nodeValue = -1;
+
+	aiStone *newVictim = getStoneAt(victim->field.col, victim->field.row, &retValue);
+	newVictim->alive = 0;
+
+	// move hitting stone to new fields.
+	aiStone *newStone = getStoneAt(stone->field.col, stone->field.row, &retValue);
+	newStone->field = newField;
+
+	return retValue;
+}
+
+/**
+ * Function checks if a stone can hit another stone.
+ *
+ * @param *world Pointer to the current world.
+ * @param *stone The stone to check.
+ *
+ * @return 1 if stone can hit, else 0.
+ */
+int canHit(board *world, aiStone *stone) {
+
+	aiField botLeft = getBottomLeft(stone);
+	aiField botRight = getBottomRight(stone);
+	aiField tLeft = getTopLeft(stone);
+	aiField tRight = getTopRight(stone);
+	aiStone *victim;
+
+	if (stone->alive && (stone->position || stone->king)) {
+		victim = getEnemyNeighbour(world, stone, botLeft);
+
+		if (victim && bottomLeft(world, victim))
+			return 1;
+
+		victim = getEnemyNeighbour(world, stone, botRight);
+		if (victim && bottomRight(world, victim))
+			return 1;
+	}
+
+	if (stone->alive && (!stone->position || stone->king)) {
+		victim = getEnemyNeighbour(world, stone, tLeft);
+		if (victim && topLeft(world, victim))
+			return 1;
+
+		victim = getEnemyNeighbour(world, stone, tRight);
+		if (victim && topRight(world, victim))
+			return 1;
 	}
 
 	return 0;
 }
 
 /**
- * Function to find recursive all possible moves end evaluate the best way to win.
+ * Function to evaluate a world.
+ * Stone values:
+ * 		Normal Stone: 						+ 100.
+ * 		King Stone:							+ 200.
+ * 		Each Row closer to Kings Row:		+ 10 * Row -> row 7: 100 + 7 * 10 = 170.
+ * 		Stone can Hit:						+ 100.
+ * 		Stone is at col 1 or 8 (cant die):	+ 50.
+ * 		Game won:							+ 1000.
+ *
+ * @param *world The current world.
+ */
+void evaluateWorld(board *world) {
+
+	aiStone *ptr = world->topStones;
+	int i;
+	int countMax = 0;
+	int countMin = 0;
+
+	for (i = 0; i < 12; i++) {
+		if (ptr->alive) {
+
+			if (ptr->king)
+				countMax += 200;
+			else
+				countMax += 100;
+
+			// closer to kingsrow
+			countMax += ptr->field.row * 10;
+
+			// is at border (cant die)
+			if (ptr->field.col == 1 || ptr->field.col == 8)
+				countMax += 50;
+
+			if (canHit(world, ptr))
+				countMax += 100;
+		}
+		ptr ++;
+	}
+
+	ptr = world->botStones;
+	for (i = 0; i < 12; i++) {
+		if (ptr->alive) {
+
+			if (ptr->king) {
+				countMin += 200;
+			} else {
+				countMin += 100;
+			}
+
+			// closer to kingsrow
+			countMin += ptr->field.row * 10;
+
+			// is at border (cant die)
+			if (ptr->field.col == 1 || ptr->field.col == 8) {
+				countMin += 50;
+			}
+
+			// can Hit
+			if (canHit(world, ptr))
+				countMin += 100;
+		}
+		ptr ++;
+	}
+
+	int gameover = gameOver(world);
+	switch(gameover) {
+		case 0:
+			countMin += 1000;
+			break;
+		case 1:
+			countMax += 1000;
+			break;
+	}
+
+	switch (world->player.strategy) {
+		case min:
+			world->nodeValue = countMin - countMax;
+			break;
+		case max:
+			world->nodeValue = countMax - countMin;
+			break;
+	}
+}
+
+/**
+ * Function to find recursive all possible moves and hitchances.
  *
  * depth: 		Max depth of the search.
  * board: 		Current state of the game.
- * player: 		The turn of the current player, 1 max, -1 min
+ *
+ * @param depth The search depth.
+ * @param *world The current world.
  */
-void minimax(int depth, board _board, int player, struct boardState *rootNode) {
+void depthSearch(int depth, board *world) {
 
-	// TODO Minimax: get movable or beatable stones
+	board newWorld;
+	aiStone *curStone;
+	if (world->player.Position)
+		curStone = world->topStones;
+	else
+		curStone = world->botStones;
 
-	if (depth == 0) {
-		evaluateSearchTree(rootNode);
-	} else {
-		board tempBoard;
-		struct boardState *tempBoardState;
-		rootNode->element = _board;
-		struct stoneArray *tempStoneArray = &_board.moveList;
-		struct stone tempStone;
+	if (depth > 0) {
+		while (curStone) {
+			if (curStone->alive && (curStone->position || curStone->king)) {
+				if (bottomLeft(world, curStone)) {
 
-		while (tempStoneArray != NULL) {
-			tempStone = tempStoneArray->stone;
-			if (tempStone.king) {
-				if (stoneCanMove(tempStone._field->topLeft)) {
+					// move the stone bottom left.
+					newWorld = doMove(world, curStone, getBottomLeft(curStone));
 
-					tempBoard = boardMove(_board, tempStone, *tempStone._field->topLeft);
-					tempBoardState = addBottom(rootNode, &tempBoard);
+					appendChild(world, &newWorld);
+					newWorld.parent = world;
 
-					minimax(depth - 1, tempBoard, getNextPlayer(player), tempBoardState);
+					depthSearch(depth - 1, &newWorld);
 
-				}
-				if (stoneCanMove(tempStone._field->topRight)) {
-
-					tempBoard = boardMove(_board, tempStone, *tempStone._field->topRight);
-					tempBoardState = addBottom(rootNode, &tempBoard);
-
-					minimax(depth - 1, tempBoard, getNextPlayer(player), tempBoardState);
-
-				}
-				if (stoneCanMove(tempStone._field->bottomLeft)) {
-
-					tempBoard = boardMove(_board, tempStone, *tempStone._field->bottomLeft);
-					tempBoardState = addBottom(rootNode, &tempBoard);
-
-					minimax(depth - 1, tempBoard, getNextPlayer(player), tempBoardState);
-
-				}
-				if (stoneCanMove(tempStone._field->bottomRight)) {
-
-					tempBoard = boardMove(_board, tempStone, *tempStone._field->bottomLeft);
-					tempBoardState = addBottom(rootNode, &tempBoard);
-
-					minimax(depth - 1, tempBoard, getNextPlayer(player), tempBoardState);
-
-				}
-				if (stoneCanBeat(tempStone._field->topLeft->topLeft,
-						tempStone._field->topLeft, currentPlayer)) {
-				}
-				if (stoneCanBeat(tempStone._field->topRight->topRight,
-						tempStone._field->topRight, currentPlayer)) {
-				}
-				if (stoneCanBeat(tempStone._field->bottomLeft->bottomLeft,
-						tempStone._field->bottomLeft, currentPlayer)) {
-				}
-				if (stoneCanBeat(tempStone._field->bottomRight->bottomRight,
-						tempStone._field->bottomRight, currentPlayer)) {
-				}
-			} else {
-				if (player) {
-					if (stoneCanMove(tempStone._field->bottomLeft)) {
-
-						tempBoard = boardMove(_board, tempStone, *tempStone._field->bottomLeft);
-						tempBoardState = addBottom(rootNode, &tempBoard);
-
-						minimax(depth - 1, tempBoard, getNextPlayer(player), tempBoardState);
-
-					}
-					if (stoneCanMove(tempStone._field->bottomRight)) {
-
-						tempBoard = boardMove(_board, tempStone, *tempStone._field->bottomLeft);
-						tempBoardState = addBottom(rootNode, &tempBoard);
-
-						minimax(depth - 1, tempBoard, getNextPlayer(player), tempBoardState);
-
-					}
-					if (stoneCanBeat(tempStone._field->bottomLeft->bottomLeft,
-							tempStone._field->bottomLeft, currentPlayer)) {
-					}
-					if (stoneCanBeat(tempStone._field->bottomRight->bottomRight,
-							tempStone._field->bottomRight, currentPlayer)) {
-					}
 				} else {
-					if (stoneCanMove(tempStone._field->topLeft)) {
+					aiField botLeft = getBottomLeft(curStone);
 
-						tempBoard = boardMove(_board, tempStone, *tempStone._field->topLeft);
-						tempBoardState = addBottom(rootNode, &tempBoard);
+					// check hitchance bottom left.
+					aiStone *victim = getEnemyNeighbour(world, curStone, botLeft);
+					if (victim && stoneCanHitVictim(world, victim, botLeft)) {
+						newWorld = hitStone(world, curStone, victim, getBottomLeft(victim));
 
-						minimax(depth - 1, tempBoard, getNextPlayer(player), tempBoardState);
+						appendChild(world, &newWorld);
+						newWorld.parent = world;
 
+						depthSearch(depth - 1, &newWorld);
 					}
-					if (stoneCanMove(tempStone._field->topRight)) {
+				}
 
-						tempBoard = boardMove(_board, tempStone, *tempStone._field->topRight);
-						tempBoardState = addBottom(rootNode, &tempBoard);
+				if (bottomRight(world, curStone)) {
 
-						minimax(depth - 1, tempBoard, getNextPlayer(player), tempBoardState);
+					// move the stone bottom right.
+					newWorld = doMove(world, curStone, getBottomRight(curStone));
 
+					appendChild(world, &newWorld);
+					newWorld.parent = world;
+
+					depthSearch(depth - 1, &newWorld);
+
+				} else {
+					aiField botRight = getBottomRight(curStone);
+
+					// check hitchance bottom left.
+					aiStone *victim = getEnemyNeighbour(world, curStone, botRight);
+					if (victim && stoneCanHitVictim(world, victim, botRight)) {
+						newWorld = hitStone(world, curStone, victim, getBottomRight(victim));
+
+						appendChild(world, &newWorld);
+						newWorld.parent = world;
+
+						depthSearch(depth - 1, &newWorld);
 					}
+				}
+			}
+			if (curStone->alive && (!curStone->position || curStone->king)) {
+				if (topLeft(world, curStone)) {
 
-					if (stoneCanBeat(tempStone._field->topLeft->topLeft,
-							tempStone._field->topLeft, currentPlayer)) {
+					// move the stone top left.
+					newWorld = doMove(world, curStone, getTopLeft(curStone));
+
+					appendChild(world, &newWorld);
+					newWorld.parent = world;
+
+					depthSearch(depth - 1, &newWorld);
+
+				} else {
+					// check hitchance
+					aiField topLeft = getTopLeft(curStone);
+
+					// check hitchance bottom left.
+					aiStone *victim = getEnemyNeighbour(world, curStone, topLeft);
+					if (victim && stoneCanHitVictim(world, victim, topLeft)) {
+						newWorld = hitStone(world, curStone, victim, getTopLeft(victim));
+
+						appendChild(world, &newWorld);
+						newWorld.parent = world;
+
+						depthSearch(depth - 1, &newWorld);
 					}
-					if (stoneCanBeat(tempStone._field->topRight->topRight,
-							tempStone._field->topRight, currentPlayer)) {
+				}
+				if (topRight(world, curStone)) {
+
+					// move the stone top right.
+					newWorld = doMove(world, curStone, getTopRight(curStone));
+
+					appendChild(world, &newWorld);
+					newWorld.parent = world;
+
+					depthSearch(depth - 1, &newWorld);
+
+				} else {
+					// check hitchance
+					aiField topRight = getTopRight(curStone);
+
+					// check hitchance bottom left.
+					aiStone *victim = getEnemyNeighbour(world, curStone, topRight);
+					if (victim && stoneCanHitVictim(world, victim, topRight)) {
+						newWorld = hitStone(world, curStone, victim, getTopRight(victim));
+
+						appendChild(world, &newWorld);
+						newWorld.parent = world;
+
+						depthSearch(depth - 1, &newWorld);
 					}
 				}
 			}
 
-			tempStoneArray = tempStoneArray->next;
+			curStone ++;
 		}
 	}
 }
 
-struct stoneArray * getLastElement(struct stoneArray **ptr) {
+/**
+ * converts struct stone to aiStone to remove pointers.
+ */
+aiStone stoneToAiStone(struct stone *src) {
+	aiStone retValue;
 
-	if (&ptr->next != NULL)
-		return *getLastElement(*ptr->next);
-	else
-		return *ptr;
+	retValue.alive = src->alive;
+	retValue.king = src->king;
+	retValue.position = src->_player->position;
+	retValue.refStone = src;
+	retValue.field.col = src->_field->col;
+	retValue.field.row = src->_field->row;
+
+	return retValue;
 }
+
+/**
+ * Analyzes the value of all childnodes.
+ * If the strategy is Max:
+ * 		the highest Node value of all Childnodes
+ * 		is the new Value of the parent node.
+ *
+ * If the strategy is Min:
+ * 		the lowest node value of all childnodes
+ * 		is the new value of the parent node.
+ *
+ * @param *node The current world.
+ */
+void evaluateNode(board *node) {
+	int temp = -1;
+	int i;
+
+	if (node->player.strategy == max) {
+		// get the MAX value from the leafes.
+		for (i = 0; i < node->childsize; i++) {
+			if (temp == -1)
+				temp = node->childs[i]->nodeValue;
+
+			if (node->childs[i]->nodeValue > temp)
+				temp = node->childs[i]->nodeValue;
+		}
+	} else {
+		// get the MIN value from the leafes.
+		for (i = 0; i < node->childsize; i++) {
+			if (temp == -1)
+				temp = node->childs[i]->nodeValue;
+
+			if (node->childs[i]->nodeValue < temp)
+				temp = node->childs[i]->nodeValue;
+		}
+	}
+
+	node->nodeValue = temp;
+}
+
+/**
+ * Traverse through the searchtree.
+ * If the search reaches a leaf (no Childnodes left),
+ * the evaluation function is called.
+ *
+ * @param *node The current world.
+ */
+void miniMax(board *node) {
+
+	int i;
+
+	if (node->isLeaf) {
+
+		evaluateWorld(node);
+
+	} else if (node->childsize) {
+		for (i = 0; i < node->childsize; i++) {
+
+			miniMax(node->childs[i]);
+		}
+
+		evaluateNode(node);
+	}
+}
+
+
 
 /**
  * Function initializes the minimax Depth search.
  */
 void computerStart(void) {
 
-	int i;
+	// Copy the stones of both players into a new board.
+	// Start the depth search.
+	struct player *top = getPlayer(1);
+	struct player *bot = getPlayer(0);
+	int i = 0;
+	board world;
 
-	struct player *p1 = getPlayer(1);
-	struct player *p2 = getPlayer(0);
+	world.player.Position = 1;
+	world.player.strategy = max;
+	world.childsize = 0;
+	world.isLeaf = 1;
+	world.nodeValue = -1;
 
-	struct stoneArray stonesP1 = newStoneArray();
-	struct stoneArray stonesP2 = newStoneArray();
+	struct stone *ptrStones = players[1].stones;
 
-	for (i = 0; i < sizeof(players[0].stones)/sizeof(players[0].stones[0]); i++) {
-		if(!stonesP1.init) {
-			stonesP1.init = 1;
-			stonesP1.stone = players[0].stones[i];
-			stonesP1.next = NULL;
-		} else {
-
-			struct stoneArray new;
-			new.init = 1;
-			new.stone = players[0].stones[i];
-			new.next = NULL;
-
-
-			struct stoneArray *temp = getLastElement(&stonesP1);
-			temp->next = &new;
-		}
+	while (i < 12) {
+		world.topStones[i] = stoneToAiStone(ptrStones);
+		ptrStones ++;
+		i ++;
 	}
 
-	for (i = 0; i < sizeof(players[1].stones)/sizeof(players[1].stones[0]); i++) {
-		if(!stonesP2.init) {
-			stonesP2.init = 1;
-			stonesP2.stone = players[1].stones[i];
-			stonesP2.next = NULL;
-		} else {
-			struct stoneArray *temp = &stonesP2;
-			while (temp->next != NULL) { temp = temp->next; };
-			stoneArrayAppend(temp, players[1].stones[i]);
-		}
+	ptrStones = players[0].stones;
+	i = 0;
+
+	while (i < 12) {
+		world.botStones[i] = stoneToAiStone(ptrStones);
+		ptrStones ++;
+		i ++;
 	}
 
-	rootNode = newBoardState();
-	board board = newBoard(stonesP1, stonesP2);
+	// create a search tree via depth search.
+	depthSearch(3, &world);
 
-	minimax(3, board, 1, &rootNode);
+	// traverse the tree and evaluate the leafes.
+	// evaluate all nodes with the minimax algorithm.
+	miniMax(&world);
+
+	// Decide what move the computer will do.
+
 }

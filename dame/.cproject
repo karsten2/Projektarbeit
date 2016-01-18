@@ -43,11 +43,20 @@
 								<option id="com.ti.ccstudio.buildDefinitions.TMS470_15.9.compilerID.LITTLE_ENDIAN.1878492859" name="Little endian code [See 'General' page to edit] (--little_endian, -me)" superClass="com.ti.ccstudio.buildDefinitions.TMS470_15.9.compilerID.LITTLE_ENDIAN" value="true" valueType="boolean"/>
 								<option id="com.ti.ccstudio.buildDefinitions.TMS470_15.9.compilerID.OPT_LEVEL.1041150297" name="Optimization level (--opt_level, -O)" superClass="com.ti.ccstudio.buildDefinitions.TMS470_15.9.compilerID.OPT_LEVEL" value="com.ti.ccstudio.buildDefinitions.TMS470_15.9.compilerID.OPT_LEVEL.2" valueType="enumerated"/>
 								<option id="com.ti.ccstudio.buildDefinitions.TMS470_15.9.compilerID.INCLUDE_PATH.1035907981" name="Add dir to #include search path (--include_path, -I)" superClass="com.ti.ccstudio.buildDefinitions.TMS470_15.9.compilerID.INCLUDE_PATH" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${PROJECT_ROOT}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${PROJECT_ROOT}/libs/driverlib&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${PROJECT_ROOT}/libs&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${PROJECT_ROOT}/libs/mcos&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${CG_TOOL_ROOT}/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${PROJECT_ROOT}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${PROJECT_ROOT}/libs/can_device_qs&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${PROJECT_ROOT}/libs/BSP&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${PROJECT_ROOT}/libs/CPU&quot;"/>
+									<listOptionValue builtIn="false" value="${PROJECT_ROOT}/libs/Header"/>
+									<listOptionValue builtIn="false" value="&quot;${PROJECT_ROOT}/libs/Source&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${PROJECT_ROOT}/libs/uC-CPU&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${PROJECT_ROOT}/libs/uC-CPU/ARM-CortexM3/CCS5&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${PROJECT_ROOT}/libs/uC-LIB&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${PROJECT_ROOT}/libs/uCOS-III/Ports&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${PROJECT_ROOT}/libs/uCOS-III/Source&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${PROJECT_ROOT}/libs/uC-Probe/OS&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${PROJECT_ROOT}/libs/uC-Probe/Source&quot;"/>
 								</option>
 								<option id="com.ti.ccstudio.buildDefinitions.TMS470_15.9.compilerID.DEBUGGING_MODEL.129808285" name="Debugging model" superClass="com.ti.ccstudio.buildDefinitions.TMS470_15.9.compilerID.DEBUGGING_MODEL" value="com.ti.ccstudio.buildDefinitions.TMS470_15.9.compilerID.DEBUGGING_MODEL.SYMDEBUG__DWARF" valueType="enumerated"/>
 								<option id="com.ti.ccstudio.buildDefinitions.TMS470_15.9.compilerID.DIAG_WARNING.176119325" name="Treat diagnostic &lt;id&gt; as warning (--diag_warning, -pdsw)" superClass="com.ti.ccstudio.buildDefinitions.TMS470_15.9.compilerID.DIAG_WARNING" valueType="stringList">

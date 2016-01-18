@@ -104,6 +104,7 @@ typedef struct stone {
  */
 typedef struct field {
 	int x, y;
+	int col, row;
 	int color;
 	struct stone *_stone;
 	struct field *top;

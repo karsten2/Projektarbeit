@@ -22,16 +22,16 @@
 //
 //*****************************************************************************
 
-#include "inc/hw_ints.h"
-#include "inc/hw_sysctl.h"
-#include "inc/hw_memmap.h"
-#include "inc/hw_types.h"
+#include "hw_ints.h"
+#include "hw_sysctl.h"
+#include "hw_memmap.h"
+#include "hw_types.h"
 
-#include "driverlib/sysctl.h"
-#include "driverlib/systick.h"
-#include "driverlib/gpio.h"
-#include "driverlib/interrupt.h"
-#include "drivers/rit128x96x4.h"
+#include "sysctl.h"
+#include "systick.h"
+#include "gpio.h"
+#include "interrupt.h"
+#include "rit128x96x4.h"
 
 #include "globals.h"
 #include "random.h"

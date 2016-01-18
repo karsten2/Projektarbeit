@@ -22,17 +22,16 @@
 //
 //*****************************************************************************
 
-#include "inc/hw_ints.h"
-#include "inc/hw_memmap.h"
-#include "inc/hw_types.h"
-#include "driverlib/can.h"
-#include "driverlib/debug.h"
-#include "driverlib/gpio.h"
-#include "driverlib/interrupt.h"
-#include "driverlib/sysctl.h"
-#include "driverlib/systick.h"
-#include "can_device_qs/can_common.h"
-//#include "audio.h"
+#include "hw_ints.h"
+#include "hw_memmap.h"
+#include "hw_types.h"
+#include "can.h"
+#include "debug.h"
+#include "gpio.h"
+#include "interrupt.h"
+#include "sysctl.h"
+#include "systick.h"
+#include "can_common.h"
 #include "can_net.h"
 
 //*****************************************************************************

@@ -1,5 +1,5 @@
 #include "globals.h"
-#include "inc/hw_types.h"
+#include "hw_types.h"
 #include <string.h>
 
 //*****************************************************************************

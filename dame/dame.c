@@ -24,8 +24,8 @@
 
 #include <stdio.h>
 
-#include "drivers/rit128x96x4.h"
-#include "inc/hw_types.h"
+#include "rit128x96x4.h"
+#include "hw_types.h"
 
 #include "graphics.h"
 #include "globals.h"
@@ -276,6 +276,8 @@ void initPitch(void) {
 			ppitch->x = _pitch.x + k * _pitch.offset;
 			ppitch->y = _pitch.y + i * _pitch.offset;
 			ppitch->color = color;
+			ppitch->row = i + 1;
+			ppitch->col = k + 1;
 
 			// set all field pointer to null.
 			ppitch->top = ppitch->topLeft = ppitch->topRight = ppitch->left =
