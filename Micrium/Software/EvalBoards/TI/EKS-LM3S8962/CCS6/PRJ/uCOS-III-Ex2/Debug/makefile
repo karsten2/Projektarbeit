@@ -198,20 +198,20 @@ endif
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXE_OUTPUTS += \
-uCOS-III-Ex1.out \
+uCOS-III-Ex2.out \
 
 EXE_OUTPUTS__QUOTED += \
-"uCOS-III-Ex1.out" \
+"uCOS-III-Ex2.out" \
 
 
 # All Target
-all: uCOS-III-Ex1.out
+all: uCOS-III-Ex2.out
 
 # Tool invocations
-uCOS-III-Ex1.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
+uCOS-III-Ex2.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: ARM Linker'
-	"/opt/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.6/bin/armcl" -mv7M3 --code_state=16 --abi=eabi -me -O2 -g --gcc --define=ccs="ccs" --define=PART_LM3S9B96 --define=TARGET_IS_TEMPEST_RB1 --define=UART_BUFFERED --diag_warning=225 --display_error_number --gen_func_subsections=on -z --stack_size=256 -m"app_LM3S8962_ccs.map" --heap_size=0 -i"/opt/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.6/lib" -i"/opt/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.6/include" --reread_libs --warn_sections --display_error_number --xml_link_info="uCOS-III-Ex1_linkInfo.xml" --rom_model -o "uCOS-III-Ex1.out" $(ORDERED_OBJS)
+	"/opt/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.6/bin/armcl" -mv7M3 --code_state=16 --abi=eabi -me -O2 -g --gcc --define=ccs="ccs" --define=PART_LM3S9B96 --define=TARGET_IS_TEMPEST_RB1 --define=UART_BUFFERED --diag_warning=225 --display_error_number --gen_func_subsections=on -z --stack_size=256 -m"app_LM3S8962_ccs.map" --heap_size=0 -i"/opt/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.6/lib" -i"/opt/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.6/include" --reread_libs --warn_sections --display_error_number --xml_link_info="uCOS-III-Ex2_linkInfo.xml" --rom_model -o "uCOS-III-Ex2.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 	@$(MAKE) --no-print-directory post-build
@@ -228,7 +228,7 @@ clean:
 	-@echo ' '
 
 post-build:
-	-"/opt/ti/ccsv6/utils/tiobj2bin/tiobj2bin" "uCOS-III-Ex1.out" "uCOS-III-Ex1.bin" "/opt/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.6/bin/ofd470" "/opt/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.6/bin/hex470" "/opt/ti/ccsv6/utils/tiobj2bin/mkhex4bin"
+	-"/opt/ti/ccsv6/utils/tiobj2bin/tiobj2bin" "uCOS-III-Ex2.out" "uCOS-III-Ex2.bin" "/opt/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.6/bin/ofd470" "/opt/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.6/bin/hex470" "/opt/ti/ccsv6/utils/tiobj2bin/mkhex4bin"
 	-@echo ' '
 
 .PHONY: all clean dependents

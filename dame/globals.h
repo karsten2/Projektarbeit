@@ -65,11 +65,17 @@ extern unsigned long g_ulSystemClock;
 extern unsigned char g_pucFrame[6144];
 extern int buttonPressed;
 
+//*****************************************************************************
+//
+// Function prototypes
+//
+//*****************************************************************************
 extern void upPressed();
 extern void downPressed();
 extern void leftPressed();
 extern void rightPressed();
 extern void startGame();
+extern void initTasks();
 
 #define STONEWIDTH 		10
 #define STONEHEIGHT 	10

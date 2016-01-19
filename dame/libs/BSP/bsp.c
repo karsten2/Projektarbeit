@@ -137,14 +137,14 @@ void  BSP_Init (void)
     // Set the clocking to run directly from the crystal.
     //
     //SysCtlClockSet(SYSCTL_SYSDIV_1 | SYSCTL_USE_OSC | SYSCTL_OSC_MAIN | SYSCTL_XTAL_8MHZ);
-    SysCtlClockSet(SYSCTL_SYSDIV_4 | SYSCTL_USE_PLL | SYSCTL_OSC_MAIN | SYSCTL_XTAL_8MHZ);
+    //SysCtlClockSet(SYSCTL_SYSDIV_4 | SYSCTL_USE_PLL | SYSCTL_OSC_MAIN | SYSCTL_XTAL_8MHZ);
 
     BSP_IntInit();
 
     //
     // Initialize the OLED display and write status.
     //
-    RIT128x96x4Init(1000000);
+    //RIT128x96x4Init(1000000);
 
     BSP_LED_Init();                                             /* Initialize the I/Os for the LED controls.            */
     BSP_PB_Init();                                              /* Initialize the I/Os for the PB  controls.            */

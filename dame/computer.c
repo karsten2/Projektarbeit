@@ -708,13 +708,10 @@ void miniMax(board *node) {
  */
 void computerStart(void) {
 
-	// Copy the stones of both players into a new board.
-	// Start the depth search.
-	struct player *top = getPlayer(1);
-	struct player *bot = getPlayer(0);
 	int i = 0;
 	board world;
 
+	// Create a new world.
 	world.player.Position = 1;
 	world.player.strategy = max;
 	world.childsize = 0;

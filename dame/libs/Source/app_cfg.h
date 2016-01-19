@@ -45,6 +45,10 @@
 
 #define  APP_TASK_START_PRIO                               1u
 #define  APP_TASK_DISPLAY_PRIO                       	   2u
+// custom stuff
+#define  APP_TASK_STARTER_PRIO                             1u
+#define  APP_TASK_AI_1_PRIO								   2u
+#define  APP_TASK_AI_2_PRIO								   2u
 
 /*
 *********************************************************************************************************
@@ -55,6 +59,8 @@
 
 #define  APP_TASK_START_STK_SIZE                         128u
 #define  APP_TASK_DISPLAY_STK_SIZE                       128u
+#define  APP_TASK_AI_1_STK_SIZE   	                     128u
+#define  APP_TASK_AI_2_STK_SIZE	                         128u
 
 /*
 *********************************************************************************************************

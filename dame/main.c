@@ -337,7 +337,6 @@ void SysTickIntHandler(void) {
 }
 
 int main(void) {
-
 	//
 	// If running on Rev A2 silicon, turn the LDO voltage up to 2.75V.  This is
 	// a workaround to allow the PLL to operate reliably.
@@ -355,7 +354,7 @@ int main(void) {
 	//
 	// Get the system clock speed.
 	//
-	g_ulSystemClock = SysCtlClockGet();
+	//g_ulSystemClock = SysCtlClockGet();
 
 	//
 	// Initialize the OLED display.
@@ -365,7 +364,7 @@ int main(void) {
 	//
 	// Get the system clock speed.
 	//
-	g_ulSystemClock = SysCtlClockGet();
+	/*g_ulSystemClock = SysCtlClockGet();
 
 	//
 	// Enable Peripherals
@@ -404,11 +403,11 @@ int main(void) {
 	//
 	// Delay for a bit to allow the initial display flash to subside.
 	//
-	Delay(CLOCK_RATE / 4);
+	Delay(CLOCK_RATE / 4);*/
 
 	startGame();
 
-	while (1) {
+	/*while (1) {
 		//
 		// See if the select button was pressed.
 		//
@@ -418,5 +417,5 @@ int main(void) {
 			//
 			HWREGBITW(&g_ulFlags, FLAG_BUTTON_PRESS) = 0;
 		}
-	}
+	}*/
 }

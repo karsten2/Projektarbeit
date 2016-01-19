@@ -32,6 +32,8 @@
 #include "move.h"
 #include "computer.h"
 
+
+
 unsigned char stoneWhite[50] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x5A, 0xAA,
 		0xA0, 0x00, 0x05, 0xAF, 0xFF, 0xFA, 0x00, 0x0A, 0xFF, 0xFF, 0xFF, 0x50,
 		0x0A, 0xFF, 0xFF, 0xFF, 0xA0, 0x0A, 0xFF, 0xFF, 0xFF, 0xA0, 0x0A, 0xFF,
@@ -872,7 +874,9 @@ void startGame(void) {
 
 	drawPitch();
 
-	while (1) {
+	initTasks();
+
+	/*while (1) {
 
 		computerStart();
 
@@ -894,16 +898,13 @@ void startGame(void) {
 			STONEBEATEN = 0;
 		}
 
-//
-// See if the select button was pressed.
-//
+		// See if the select button was pressed.
 		if (HWREGBITW(&g_ulFlags, FLAG_BUTTON_PRESS)) {
-//
-// Clear the button press indicator.
-//
+
+			// Clear the button press indicator.
 			HWREGBITW(&g_ulFlags, FLAG_BUTTON_PRESS) = 0;
 
 			selectHandler();
 		}
-	}
+	}*/
 }
