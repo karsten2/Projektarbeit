@@ -43,7 +43,7 @@ typedef struct board {
 	aiPlayer player;
 	int isLeaf;
 	struct board *parent;
-	struct board *childs[100];
+	struct board *childs[50];
 	int childsize;
 	int nodeValue;
 } board;
@@ -212,7 +212,7 @@ int fieldValid (aiField field) {
 /**
  * Checks if a stone can hit a victim.
  */
-int stoneCanHitVictim(board *world, aiStone *victim,aiField dir) {
+int stoneCanHitVictim(board *world, aiStone *victim, aiField dir) {
 
 	if (!getStoneAt(dir.col, dir.row, world))
 		return 1;
@@ -303,6 +303,8 @@ void copyBoard(board *src, board *dst) {
  * @return The new world as board.
  */
 board doMove(board *world, aiStone *stoneToMove, aiField newField) {
+
+	int i;
 	board retValue;
 	aiStone *ptrStone = malloc(12 * sizeof(aiStone));
 
@@ -315,7 +317,7 @@ board doMove(board *world, aiStone *stoneToMove, aiField newField) {
 	else
 		ptrStone = retValue.botStones;
 
-	while(ptrStone) {
+	for (i = 0; i < 12; i++) {
 
 		if (ptrStone->field.col == stoneToMove->field.col &&
 				ptrStone->field.row == stoneToMove->field.row) {
@@ -503,7 +505,8 @@ void evaluateWorld(board *world) {
  */
 void depthSearch(int depth, board *world) {
 
-	board newWorld;
+	int i;
+
 	aiStone *curStone;
 	if (world->player.Position)
 		curStone = world->topStones;
@@ -511,12 +514,12 @@ void depthSearch(int depth, board *world) {
 		curStone = world->botStones;
 
 	if (depth > 0) {
-		while (curStone) {
+		for(i = 0; i < 12; i++) {
 			if (curStone->alive && (curStone->position || curStone->king)) {
 				if (bottomLeft(world, curStone)) {
 
 					// move the stone bottom left.
-					newWorld = doMove(world, curStone, getBottomLeft(curStone));
+					board newWorld = doMove(world, curStone, getBottomLeft(curStone));
 
 					appendChild(world, &newWorld);
 					newWorld.parent = world;
@@ -529,7 +532,7 @@ void depthSearch(int depth, board *world) {
 					// check hitchance bottom left.
 					aiStone *victim = getEnemyNeighbour(world, curStone, botLeft);
 					if (victim && stoneCanHitVictim(world, victim, botLeft)) {
-						newWorld = hitStone(world, curStone, victim, getBottomLeft(victim));
+						board newWorld = hitStone(world, curStone, victim, getBottomLeft(victim));
 
 						appendChild(world, &newWorld);
 						newWorld.parent = world;
@@ -541,7 +544,7 @@ void depthSearch(int depth, board *world) {
 				if (bottomRight(world, curStone)) {
 
 					// move the stone bottom right.
-					newWorld = doMove(world, curStone, getBottomRight(curStone));
+					board newWorld = doMove(world, curStone, getBottomRight(curStone));
 
 					appendChild(world, &newWorld);
 					newWorld.parent = world;
@@ -554,7 +557,7 @@ void depthSearch(int depth, board *world) {
 					// check hitchance bottom left.
 					aiStone *victim = getEnemyNeighbour(world, curStone, botRight);
 					if (victim && stoneCanHitVictim(world, victim, botRight)) {
-						newWorld = hitStone(world, curStone, victim, getBottomRight(victim));
+						board newWorld = hitStone(world, curStone, victim, getBottomRight(victim));
 
 						appendChild(world, &newWorld);
 						newWorld.parent = world;
@@ -567,7 +570,7 @@ void depthSearch(int depth, board *world) {
 				if (topLeft(world, curStone)) {
 
 					// move the stone top left.
-					newWorld = doMove(world, curStone, getTopLeft(curStone));
+					board newWorld = doMove(world, curStone, getTopLeft(curStone));
 
 					appendChild(world, &newWorld);
 					newWorld.parent = world;
@@ -581,7 +584,7 @@ void depthSearch(int depth, board *world) {
 					// check hitchance bottom left.
 					aiStone *victim = getEnemyNeighbour(world, curStone, topLeft);
 					if (victim && stoneCanHitVictim(world, victim, topLeft)) {
-						newWorld = hitStone(world, curStone, victim, getTopLeft(victim));
+						board newWorld = hitStone(world, curStone, victim, getTopLeft(victim));
 
 						appendChild(world, &newWorld);
 						newWorld.parent = world;
@@ -592,7 +595,7 @@ void depthSearch(int depth, board *world) {
 				if (topRight(world, curStone)) {
 
 					// move the stone top right.
-					newWorld = doMove(world, curStone, getTopRight(curStone));
+					board newWorld = doMove(world, curStone, getTopRight(curStone));
 
 					appendChild(world, &newWorld);
 					newWorld.parent = world;
@@ -606,7 +609,7 @@ void depthSearch(int depth, board *world) {
 					// check hitchance bottom left.
 					aiStone *victim = getEnemyNeighbour(world, curStone, topRight);
 					if (victim && stoneCanHitVictim(world, victim, topRight)) {
-						newWorld = hitStone(world, curStone, victim, getTopRight(victim));
+						board newWorld = hitStone(world, curStone, victim, getTopRight(victim));
 
 						appendChild(world, &newWorld);
 						newWorld.parent = world;
@@ -736,7 +739,7 @@ void computerStart(void) {
 	}
 
 	// create a search tree via depth search.
-	depthSearch(3, &world);
+	depthSearch(1, &world);
 
 	// traverse the tree and evaluate the leafes.
 	// evaluate all nodes with the minimax algorithm.

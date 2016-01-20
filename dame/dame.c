@@ -874,7 +874,9 @@ void startGame(void) {
 
 	drawPitch();
 
-	initTasks();
+	//initTasks();
+
+	computerStart();
 
 	/*while (1) {
 

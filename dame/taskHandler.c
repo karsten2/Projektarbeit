@@ -146,6 +146,13 @@ static  void  AppTaskStarter (void  *p_arg)
     // Create Task for AI 2
     App_Ai_2_TaskCreate();
 
+
+    CPU_INT08U  state;
+    CPU_CHAR    ucText[20];
+    CPU_INT08U  ucYOffset;
+
+    state = 0u;
+
     while (DEF_ON) {                                            /* Task body, always written as an infinite loop.       */
         OSTimeDlyHMSM(0u, 0u, 1u, 0u,
                       OS_OPT_TIME_HMSM_STRICT,
@@ -155,6 +162,35 @@ static  void  AppTaskStarter (void  *p_arg)
 
         // Handle the ai moves on the board
         // Toggle Task priority
+
+
+        switch(state) {
+                	case 0:
+                		RIT128x96x4Clear();
+                        state = 1u;
+                        break;
+
+                    case 1:
+                    	 ucYOffset = 0;
+                    	 sprintf( ucText, "Tsks: %3u  CPU: %3u%%", OSTaskQty, OSStatTaskCPUUsage );
+                    	 RIT128x96x4StringDraw( ucText, 0u, 0u, 8);
+
+                    	 sprintf( ucText, "Lckd: %3u  Cur: %3u", OSSchedLockTimeMax, OSSchedLockTimeMaxCur );
+                    	 RIT128x96x4StringDraw( ucText, 0u, 9u, 8);
+
+                    	 sprintf( ucText, "CtxS: %12u", OSTaskCtxSwCtr );
+                    	 RIT128x96x4StringDraw( ucText, 0u, 18u, 8);
+
+                    	 sprintf( ucText, "StTC: %12u", OSStatTaskCtr );
+                    	 RIT128x96x4StringDraw( ucText, 0u, 27u, 8);
+
+                         state = 1u;
+                         break;
+
+                    default:
+                         state = 0u;
+                         break;
+        }
     }
 }
 

@@ -187,15 +187,42 @@ static  void  AppTaskStart (void  *p_arg)
 *********************************************************************************************************
 */
 
+void drawStatistics(CPU_INT08U *state) {
+    CPU_CHAR    ucText[20];
+
+	switch(*state) {
+		case 0:
+			RIT128x96x4Clear();
+	        *state = 1u;
+	        break;
+	    case 1:
+	    	sprintf( ucText, "Tsks: %3u  CPU: %3u%%", OSTaskQty, OSStatTaskCPUUsage );
+	    	RIT128x96x4StringDraw( ucText, 0u, 0u, 8);
+
+	    	sprintf( ucText, "Lckd: %3u  Cur: %3u", OSSchedLockTimeMax, OSSchedLockTimeMaxCur );
+	        RIT128x96x4StringDraw( ucText, 0u, 9u, 8);
+
+	        sprintf( ucText, "CtxS: %12u", OSTaskCtxSwCtr );
+	        RIT128x96x4StringDraw( ucText, 0u, 18u, 8);
+
+	        sprintf( ucText, "StTC: %12u", OSStatTaskCtr );
+	        RIT128x96x4StringDraw( ucText, 0u, 27u, 8);
+
+	        *state = 1u;
+	        break;
+
+	    default:
+	    	state = 0u;
+	    	break;
+	}
+}
+
 static  void  AppTaskDisplay(void  *p_arg)
 {
     CPU_INT08U  state;
     CPU_INT16U  sec_u16;
     CPU_INT16U  msec_u16;
     OS_ERR      err;
-    CPU_INT08U  ucYOffset;
-    CPU_CHAR    ucText[20];
-
 
 
    (void)&p_arg;
@@ -209,33 +236,7 @@ static  void  AppTaskDisplay(void  *p_arg)
                       OS_OPT_TIME_HMSM_STRICT,
                       &err);
 
-        switch(state) {
-        	case 0:
-        		RIT128x96x4Clear();
-                state = 1u;
-                break;
-
-            case 1:
-            	 ucYOffset = 0;
-            	 sprintf( ucText, "Tsks: %3u  CPU: %3u%%", OSTaskQty, OSStatTaskCPUUsage );
-            	 RIT128x96x4StringDraw( ucText, 0u, 0u, 8);
-
-            	 sprintf( ucText, "Lckd: %3u  Cur: %3u", OSSchedLockTimeMax, OSSchedLockTimeMaxCur );
-            	 RIT128x96x4StringDraw( ucText, 0u, 9u, 8);
-
-            	 sprintf( ucText, "CtxS: %12u", OSTaskCtxSwCtr );
-            	 RIT128x96x4StringDraw( ucText, 0u, 18u, 8);
-
-            	 sprintf( ucText, "StTC: %12u", OSStatTaskCtr );
-            	 RIT128x96x4StringDraw( ucText, 0u, 27u, 8);
-
-                 state = 1u;
-                 break;
-
-            default:
-                 state = 0u;
-                 break;
-        }
+        drawStatistics(&state);
     }
 }
 
