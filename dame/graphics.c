@@ -2,6 +2,8 @@
 #include "hw_types.h"
 #include <string.h>
 
+unsigned char g_pucFrame[6144];
+
 //*****************************************************************************
 //
 // Clears the local frame buffer.

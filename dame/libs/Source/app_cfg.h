@@ -59,8 +59,8 @@
 
 #define  APP_TASK_START_STK_SIZE                         128u
 #define  APP_TASK_DISPLAY_STK_SIZE                       128u
-#define  APP_TASK_AI_1_STK_SIZE   	                     128u
-#define  APP_TASK_AI_2_STK_SIZE	                         128u
+#define  APP_TASK_AI_1_STK_SIZE   	                     1024u
+#define  APP_TASK_AI_2_STK_SIZE	                         1024u
 
 /*
 *********************************************************************************************************

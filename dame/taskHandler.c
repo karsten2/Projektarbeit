@@ -23,9 +23,9 @@
 *********************************************************************************************************
 */
 
-static  OS_TCB       AppTaskStarterTCB;
-static  OS_TCB       AppTask_Ai_1_TCB;
-static  OS_TCB       AppTask_Ai_2_TCB;
+OS_TCB       AppTaskStarterTCB;
+OS_TCB       AppTask_Ai_1_TCB;
+OS_TCB       AppTask_Ai_2_TCB;
 
 static  CPU_STK      AppTaskStarterStk[APP_TASK_START_STK_SIZE];
 static  CPU_STK      AppTask_Ai_1_Stk[APP_TASK_AI_1_STK_SIZE];
@@ -33,15 +33,30 @@ static  CPU_STK      AppTask_Ai_2_Stk[APP_TASK_AI_2_STK_SIZE];
 
 
 static void AppTask_Ai_2 (void *p_arg) {
-	OS_ERR      err;
+	OS_ERR      	err;
+	player 			*players;
+	OS_MSG_SIZE		size;
+	CPU_TS			ts;
 
 	while (DEF_ON) {
 		OSTimeDlyHMSM(0u, 0u, 1u, 0u,
 				OS_OPT_TIME_HMSM_STRICT,
 				&err);
 
-		// Do something
-		//BSP_LED_Toggle(0);
+		// Get the player from the message queue
+		players = (player *)
+				OSTaskQPend(
+						(OS_TICK)		1000u,
+						(OS_OPT)		OS_OPT_PEND_BLOCKING,
+						(OS_MSG_SIZE *)	&size,
+						(CPU_TS *)		&ts,
+						(OS_ERR *)		&err);
+
+		computerStart(players);
+
+		if (! err == OS_ERR_TIMEOUT) {
+			computerStart(players);
+		}
 	}
 }
 
@@ -59,7 +74,7 @@ static void App_Ai_2_TaskCreate (void) {
 	             (CPU_STK    *)&AppTask_Ai_2_Stk[0],
 	             (CPU_STK_SIZE) APP_TASK_AI_2_STK_SIZE / 10u,
 	             (CPU_STK_SIZE) APP_TASK_AI_2_STK_SIZE,
-	             (OS_MSG_QTY  ) 0u,
+	             (OS_MSG_QTY  ) 1u,
 	             (OS_TICK     ) 0u,
 	             (void       *) 0,
 	             (OS_OPT      )(OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR),
@@ -77,7 +92,6 @@ static void AppTask_Ai_1 (void *p_arg) {
 				&err);
 
 		// Do something
-		BSP_LED_Toggle(0);
 	}
 }
 
@@ -95,7 +109,7 @@ static void App_Ai_1_TaskCreate (void) {
 	             (CPU_STK    *)&AppTask_Ai_1_Stk[0],
 	             (CPU_STK_SIZE) APP_TASK_AI_1_STK_SIZE / 10u,
 	             (CPU_STK_SIZE) APP_TASK_AI_1_STK_SIZE,
-	             (OS_MSG_QTY  ) 0u,
+	             (OS_MSG_QTY  ) 1u,
 	             (OS_TICK     ) 0u,
 	             (void       *) 0,
 	             (OS_OPT      )(OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR),
@@ -140,57 +154,26 @@ static  void  AppTaskStarter (void  *p_arg)
     CPU_IntDisMeasMaxCurReset();
     App_ProbeInit();
 
+    // Initialize the game
+    player * players = startGame();
+
     // Create Task for AI 1
     App_Ai_1_TaskCreate();
 
     // Create Task for AI 2
     App_Ai_2_TaskCreate();
 
-
-    CPU_INT08U  state;
-    CPU_CHAR    ucText[20];
-    CPU_INT08U  ucYOffset;
-
-    state = 0u;
-
     while (DEF_ON) {                                            /* Task body, always written as an infinite loop.       */
         OSTimeDlyHMSM(0u, 0u, 1u, 0u,
-                      OS_OPT_TIME_HMSM_STRICT,
-                      &err);
+        		OS_OPT_TIME_HMSM_STRICT,
+				&err);
 
-        //BSP_LED_Toggle(0);                                      /* Toggle LED                       */
+        OSTaskQPost((OS_TCB    *)&AppTask_Ai_2_TCB,
+                    (void      *)players,
+                    (OS_MSG_SIZE)sizeof(players),
+                    (OS_OPT     )OS_OPT_POST_FIFO,
+                    (OS_ERR    *)&err);
 
-        // Handle the ai moves on the board
-        // Toggle Task priority
-
-
-        switch(state) {
-                	case 0:
-                		RIT128x96x4Clear();
-                        state = 1u;
-                        break;
-
-                    case 1:
-                    	 ucYOffset = 0;
-                    	 sprintf( ucText, "Tsks: %3u  CPU: %3u%%", OSTaskQty, OSStatTaskCPUUsage );
-                    	 RIT128x96x4StringDraw( ucText, 0u, 0u, 8);
-
-                    	 sprintf( ucText, "Lckd: %3u  Cur: %3u", OSSchedLockTimeMax, OSSchedLockTimeMaxCur );
-                    	 RIT128x96x4StringDraw( ucText, 0u, 9u, 8);
-
-                    	 sprintf( ucText, "CtxS: %12u", OSTaskCtxSwCtr );
-                    	 RIT128x96x4StringDraw( ucText, 0u, 18u, 8);
-
-                    	 sprintf( ucText, "StTC: %12u", OSStatTaskCtr );
-                    	 RIT128x96x4StringDraw( ucText, 0u, 27u, 8);
-
-                         state = 1u;
-                         break;
-
-                    default:
-                         state = 0u;
-                         break;
-        }
     }
 }
 
@@ -209,7 +192,7 @@ void initTasks(void) {
 			(CPU_STK *) &AppTaskStarterStk[0],
 			(CPU_STK_SIZE) APP_TASK_START_STK_SIZE / 10u,
 			(CPU_STK_SIZE) APP_TASK_START_STK_SIZE,
-			(OS_MSG_QTY) 0u,
+			(OS_MSG_QTY) 1u,
 			(OS_TICK) 0u, (void *) 0,
 			(OS_OPT) (OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR),
 			(OS_ERR *) &err);

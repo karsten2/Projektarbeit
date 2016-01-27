@@ -247,16 +247,16 @@ void appendChild(board *world, board *child) {
 /**
  * Function returns the other player.
  */
-struct player * getPlayer(int position) {
+player * getPlayer(int position) {
 
-	int i;
+	/*int i;
 	for (i = 0; i < sizeof(players) / sizeof(players[0]); i++) {
 		if (players[i].position == position) {
 			return &players[i];
 		}
-	}
+	}*/
 
-	return currentPlayer;
+	return NULL;
 }
 
 /**
@@ -709,7 +709,7 @@ void miniMax(board *node) {
 /**
  * Function initializes the minimax Depth search.
  */
-void computerStart(void) {
+void computerStart(player *players) {
 
 	int i = 0;
 	board world;
@@ -721,20 +721,16 @@ void computerStart(void) {
 	world.isLeaf = 1;
 	world.nodeValue = -1;
 
-	struct stone *ptrStones = players[1].stones;
-
 	while (i < 12) {
-		world.topStones[i] = stoneToAiStone(ptrStones);
-		ptrStones ++;
+		world.botStones[i] = stoneToAiStone(&players->stones[i]);
 		i ++;
 	}
 
-	ptrStones = players[0].stones;
+	players ++;
 	i = 0;
 
 	while (i < 12) {
-		world.botStones[i] = stoneToAiStone(ptrStones);
-		ptrStones ++;
+		world.topStones[i] = stoneToAiStone(&players->stones[i]);
 		i ++;
 	}
 

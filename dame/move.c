@@ -3,7 +3,7 @@
 #include "globals.h"
 #include "move.h"
 
-
+/*
 void moveToRight() {
 	clearSelectedField(selection);
 	struct field *tmpSelection = selection;
@@ -46,7 +46,7 @@ void moveToLeft() {
 	}
 }
 
-/*
+//
  1 = topRight
  2 = top
  3 = topLeft
@@ -56,7 +56,7 @@ void moveToLeft() {
  7 = downRight
  8 = right
  */
-int stepTo(int direction) {
+/*int stepTo(int direction) {
 
 	clearSelectedField(selection);
 	struct field *tmpSelection = selection;
@@ -282,3 +282,4 @@ int moveToBottom() {
 	}
 	return 0;
 }
+*/

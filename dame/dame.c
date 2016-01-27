@@ -33,6 +33,7 @@
 #include "computer.h"
 
 
+unsigned char g_pucFrame[6144];
 
 unsigned char stoneWhite[50] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x5A, 0xAA,
 		0xA0, 0x00, 0x05, 0xAF, 0xFF, 0xFA, 0x00, 0x0A, 0xFF, 0xFF, 0xFF, 0x50,
@@ -854,7 +855,7 @@ void selectHandler(void) {
 	drawPitch();
 }
 
-void startGame(void) {
+player * startGame(void) {
 
 	RIT128x96x4Clear();
 
@@ -874,9 +875,7 @@ void startGame(void) {
 
 	drawPitch();
 
-	//initTasks();
-
-	computerStart();
+	return players;
 
 	/*while (1) {
 
