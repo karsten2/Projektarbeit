@@ -37,6 +37,7 @@ static void AppTask_Ai_2 (void *p_arg) {
 	player 			*players;
 	OS_MSG_SIZE		size;
 	CPU_TS			ts;
+	struct aiMove	move;
 
 	while (DEF_ON) {
 		OSTimeDlyHMSM(0u, 0u, 1u, 0u,
@@ -52,14 +53,16 @@ static void AppTask_Ai_2 (void *p_arg) {
 						(CPU_TS *)		&ts,
 						(OS_ERR *)		&err);
 
-		computerStart(players);
+		move = computerStart(players);
 
-		if (! err == OS_ERR_TIMEOUT) {
-			computerStart(players);
-		}
+		// send the move to the main task
+		OSTaskQPost((OS_TCB    *)&AppTaskStarterTCB,
+		                    (void      *)&move,
+		                    (OS_MSG_SIZE)sizeof(struct aiMove),
+		                    (OS_OPT     )OS_OPT_POST_FIFO,
+		                    (OS_ERR    *)&err);
 	}
 }
-
 
 static void App_Ai_2_TaskCreate (void) {
 	OS_ERR  err;
@@ -163,6 +166,10 @@ static  void  AppTaskStarter (void  *p_arg)
     // Create Task for AI 2
     App_Ai_2_TaskCreate();
 
+    struct aiMove 	*move;
+	OS_MSG_SIZE		size;
+	CPU_TS			ts;
+
     while (DEF_ON) {                                            /* Task body, always written as an infinite loop.       */
         OSTimeDlyHMSM(0u, 0u, 1u, 0u,
         		OS_OPT_TIME_HMSM_STRICT,
@@ -174,6 +181,17 @@ static  void  AppTaskStarter (void  *p_arg)
                     (OS_OPT     )OS_OPT_POST_FIFO,
                     (OS_ERR    *)&err);
 
+
+		// Get the player from the message queue
+		move = (struct aiMove *)
+				OSTaskQPend(
+						(OS_TICK)		1000u,
+						(OS_OPT)		OS_OPT_PEND_BLOCKING,
+						(OS_MSG_SIZE *)	&size,
+						(CPU_TS *)		&ts,
+						(OS_ERR *)		&err);
+
+		updateBoard(move);
     }
 }
 

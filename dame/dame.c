@@ -30,8 +30,6 @@
 #include "graphics.h"
 #include "globals.h"
 #include "move.h"
-#include "computer.h"
-
 
 unsigned char g_pucFrame[6144];
 
@@ -853,6 +851,14 @@ void selectHandler(void) {
 		selectedStoneField = stoneMoved->_field;
 
 	drawPitch();
+}
+
+void updateBoard(struct aiMove *move) {
+	int i;
+
+	for (i = 0; i < 12; i++) {
+		move->value += i;
+	}
 }
 
 player * startGame(void) {

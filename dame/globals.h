@@ -57,6 +57,24 @@ typedef struct stone {
 	struct player *_player;
 } stone;
 
+struct aiField {
+	int col;
+	int row;
+};
+
+struct aiStone {
+	int king;
+	int alive;
+	struct aiField field;
+	int position;
+};
+
+struct aiMove {
+	struct aiStone Hitter, Victim;
+	struct aiField Destination;
+	int value, beatStone;
+};
+
 /**
  * A field in the pitch.
  *
@@ -116,6 +134,7 @@ extern unsigned char g_ucSwitches;
 
 extern player * startGame();
 extern void initTasks();
-extern void computerStart();
+extern struct aiMove computerStart();
+extern void updateBoard();
 
 #endif // __GLOBALS_H__
