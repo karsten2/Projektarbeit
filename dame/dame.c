@@ -264,6 +264,7 @@ void initPitch(void) {
 	int i, k;
 	int color = 1;
 
+	_pitch.turn = 0;											//TODO: random turn at start.
 	_pitch.size = sizeof(_pitch.fields);
 	_pitch.offset = 10;
 	_pitch.x = displayWidth / 2 - (8 * _pitch.offset) / 2;
@@ -853,12 +854,49 @@ void selectHandler(void) {
 	drawPitch();
 }
 
-void updateBoard(struct aiMove *move) {
-	int i;
+struct field * getFieldAt(int row, int col) {
 
-	for (i = 0; i < 12; i++) {
-		move->value += i;
+	int i, k;
+
+	for (i = 0; i < 2; i++) {
+		for (k = 0; k < 12; k++) {
+			if (players[i].stones[k]._field->row == row && players[i].stones[k]._field->col == col)
+				return players[i].stones[k]._field;
+		}
 	}
+
+	return NULL;
+}
+
+int currentTurn(void) {
+	return _pitch.turn;
+}
+
+/**
+ * Sets the next players turn.
+ */
+void nextTurn(void) {
+	/*switch (_pitch.turn) {
+	case 0:
+		_pitch.turn = 1;
+	case 1:
+		_pitch.turn = 0;
+	}*/
+}
+
+player * updateBoard(struct field *src, struct field *dst) {
+
+	struct field *srcTemp, *dstTemp;
+
+	srcTemp = getFieldAt(src->row, src->col);
+	dstTemp = getFieldAt(dst->row, dst->col);
+
+	moveStone(srcTemp, dstTemp);
+
+	// TODO: update the board + screen
+
+	nextTurn();
+	return players;
 }
 
 player * startGame(void) {
@@ -885,33 +923,33 @@ player * startGame(void) {
 
 	/*while (1) {
 
-		computerStart();
+	 computerStart();
 
-		switch (_changed) {
-		case nothing:
-			break;
-		default:
-			GPIO_Handler();
-			break;
-		}
+	 switch (_changed) {
+	 case nothing:
+	 break;
+	 default:
+	 GPIO_Handler();
+	 break;
+	 }
 
-		if (stoneMoved != NULL && !STONEBEATEN) {
-			switchPlayer();
-			stoneMoved = NULL;
-		} else if (stoneMoved != NULL && STONEBEATEN
-				&& !canBeatStone(stoneMoved)) {
-			switchPlayer();
-			stoneMoved = NULL;
-			STONEBEATEN = 0;
-		}
+	 if (stoneMoved != NULL && !STONEBEATEN) {
+	 switchPlayer();
+	 stoneMoved = NULL;
+	 } else if (stoneMoved != NULL && STONEBEATEN
+	 && !canBeatStone(stoneMoved)) {
+	 switchPlayer();
+	 stoneMoved = NULL;
+	 STONEBEATEN = 0;
+	 }
 
-		// See if the select button was pressed.
-		if (HWREGBITW(&g_ulFlags, FLAG_BUTTON_PRESS)) {
+	 // See if the select button was pressed.
+	 if (HWREGBITW(&g_ulFlags, FLAG_BUTTON_PRESS)) {
 
-			// Clear the button press indicator.
-			HWREGBITW(&g_ulFlags, FLAG_BUTTON_PRESS) = 0;
+	 // Clear the button press indicator.
+	 HWREGBITW(&g_ulFlags, FLAG_BUTTON_PRESS) = 0;
 
-			selectHandler();
-		}
-	}*/
+	 selectHandler();
+	 }
+	 }*/
 }

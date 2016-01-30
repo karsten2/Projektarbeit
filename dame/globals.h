@@ -112,6 +112,7 @@ typedef struct pitch {
 	int size;
 	int fieldCount;
 	struct field fields[64];
+	int turn;
 } pitch;
 
 /**
@@ -135,6 +136,7 @@ extern unsigned char g_ucSwitches;
 extern player * startGame();
 extern void initTasks();
 extern struct aiMove computerStart();
-extern void updateBoard();
+extern player * updateBoard();
+extern int currentTurn();
 
 #endif // __GLOBALS_H__

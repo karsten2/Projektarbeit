@@ -61,14 +61,15 @@ static void AppTask_Ai_2 (void *p_arg) {
 		                    (OS_MSG_SIZE)sizeof(struct aiMove),
 		                    (OS_OPT     )OS_OPT_POST_FIFO,
 		                    (OS_ERR    *)&err);
+
+		OSTaskSuspend(&AppTask_Ai_2_TCB,
+				&err);
 	}
 }
 
 static void App_Ai_2_TaskCreate (void) {
 	OS_ERR  err;
 
-
-	                                                                /* Create Display Task                                  */
 	OSTaskCreate((OS_TCB     *)&AppTask_Ai_2_TCB,
 	             (CPU_CHAR   *)"Ai_2",
 	             (OS_TASK_PTR ) AppTask_Ai_2,
@@ -88,7 +89,6 @@ static void App_Ai_2_TaskCreate (void) {
 static void AppTask_Ai_1 (void *p_arg) {
 	OS_ERR      err;
 
-
 	while (DEF_ON) {
 		OSTimeDlyHMSM(0u, 0u, 1u, 0u,
 				OS_OPT_TIME_HMSM_STRICT,
@@ -102,8 +102,6 @@ static void AppTask_Ai_1 (void *p_arg) {
 static void App_Ai_1_TaskCreate (void) {
 	OS_ERR  err;
 
-
-	                                                                /* Create Display Task                                  */
 	OSTaskCreate((OS_TCB     *)&AppTask_Ai_1_TCB,
 	             (CPU_CHAR   *)"Ai_1",
 	             (OS_TASK_PTR ) AppTask_Ai_1,
@@ -118,10 +116,6 @@ static void App_Ai_1_TaskCreate (void) {
 	             (OS_OPT      )(OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR),
 	             (OS_ERR     *)&err);
 }
-
-
-
-
 
 /*
 *********************************************************************************************************
@@ -144,10 +138,9 @@ static  void  AppTaskStarter (void  *p_arg)
     CPU_INT32U  cnts;
     OS_ERR      err;
 
+    (void)&p_arg;
 
-   (void)&p_arg;
-
-    BSP_Init();                                                 /* Initialize BSP functions                             */
+    BSP_Init();
 
     clk_freq = BSP_CPU_ClkFreq();                               /* Determine SysTick reference freq.                    */
     cnts     = clk_freq / (CPU_INT32U)OSCfg_TickRate_Hz;        /* Determine nbr SysTick increments                     */
@@ -161,7 +154,7 @@ static  void  AppTaskStarter (void  *p_arg)
     player * players = startGame();
 
     // Create Task for AI 1
-    App_Ai_1_TaskCreate();
+    //App_Ai_1_TaskCreate();
 
     // Create Task for AI 2
     App_Ai_2_TaskCreate();
@@ -170,17 +163,10 @@ static  void  AppTaskStarter (void  *p_arg)
 	OS_MSG_SIZE		size;
 	CPU_TS			ts;
 
-    while (DEF_ON) {                                            /* Task body, always written as an infinite loop.       */
+    while (DEF_ON) {
         OSTimeDlyHMSM(0u, 0u, 1u, 0u,
         		OS_OPT_TIME_HMSM_STRICT,
 				&err);
-
-        OSTaskQPost((OS_TCB    *)&AppTask_Ai_2_TCB,
-                    (void      *)players,
-                    (OS_MSG_SIZE)sizeof(players),
-                    (OS_OPT     )OS_OPT_POST_FIFO,
-                    (OS_ERR    *)&err);
-
 
 		// Get the player from the message queue
 		move = (struct aiMove *)
@@ -191,7 +177,36 @@ static  void  AppTaskStarter (void  *p_arg)
 						(CPU_TS *)		&ts,
 						(OS_ERR *)		&err);
 
-		updateBoard(move);
+		if (move != NULL)
+			players = updateBoard(move);
+
+		switch (currentTurn()) {
+		case 0:
+	        OSTaskQPost((OS_TCB    *)&AppTask_Ai_2_TCB,
+	                    (void      *)players,
+	                    (OS_MSG_SIZE)sizeof(players),
+	                    (OS_OPT     )OS_OPT_POST_FIFO,
+	                    (OS_ERR    *)&err);
+
+	        /*OSTaskResume(&AppTask_Ai_2_TCB,
+	        							&err);
+
+			OSTaskSuspend(&AppTaskStarterTCB,
+					&err);*/
+
+			break;
+
+		case 1:
+	        OSTaskQPost((OS_TCB    *)&AppTask_Ai_1_TCB,
+	                    (void      *)players,
+	                    (OS_MSG_SIZE)sizeof(players),
+	                    (OS_OPT     )OS_OPT_POST_FIFO,
+	                    (OS_ERR    *)&err);
+
+	        OSTaskResume(&AppTask_Ai_1_TCB,
+	        							&err);
+			break;
+		}
     }
 }
 
